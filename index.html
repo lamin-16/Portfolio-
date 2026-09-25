@@ -77,7 +77,6 @@ tailwind.config = {
 
   [dir="rtl"] body{ font-family:'Cairo', 'Inter', sans-serif; }
 
-  /* Background */
   .bg-main{
     position:fixed; inset:0; z-index:-1;
     background:
@@ -95,7 +94,6 @@ tailwind.config = {
     mask-image:radial-gradient(ellipse 90% 70% at 50% 30%, #000 10%, transparent 75%);
   }
 
-  /* Cards */
   .card{
     background:#ffffff;
     border:1px solid #e5e5e5;
@@ -122,14 +120,12 @@ tailwind.config = {
     border-radius:20px;
   }
 
-  /* Caret */
   .caret::after{
     content:'▍'; margin-left:3px; color:#ea580c;
     animation:blink 1s steps(2,start) infinite;
   }
   @keyframes blink{ 0%,49%{opacity:1} 50%,100%{opacity:0} }
 
-  /* Status dot */
   .dot{
     position:relative; display:inline-block;
     width:7px; height:7px; border-radius:50%;
@@ -147,7 +143,6 @@ tailwind.config = {
 
   .cli-line{ line-height:1.7; word-break:break-word; }
 
-  /* Image wrapper */
   .img-wrap{
     position:relative; overflow:hidden; background:#f5f5f5;
   }
@@ -159,7 +154,6 @@ tailwind.config = {
     transform:scale(1.04);
   }
 
-  /* Marquee */
   .marquee{
     display:flex; gap:3rem; width:max-content;
     animation:marquee 60s linear infinite;
@@ -170,7 +164,6 @@ tailwind.config = {
     to{ transform:translateX(-50%); }
   }
 
-  /* Ad slot */
   .ad-slot{
     position:relative;
     display:flex; align-items:center; justify-content:center;
@@ -197,7 +190,6 @@ tailwind.config = {
     color:#a3a3a3;
   }
 
-  /* Terminal (light variant) */
   .terminal-body{
     background:#fafafa;
     font-family:'JetBrains Mono', monospace;
@@ -212,12 +204,10 @@ tailwind.config = {
     border-top:1px solid #e5e5e5;
   }
 
-  /* Focus */
   a:focus-visible, button:focus-visible, input:focus-visible{
     outline:2px solid #ea580c; outline-offset:2px; border-radius:8px;
   }
 
-  /* Mobile perf */
   @media (max-width: 768px){
     .marquee{ animation-duration: 90s; }
     .dot::after{ animation:none; }
@@ -227,15 +217,6 @@ tailwind.config = {
       animation-duration:.01ms!important;
       transition-duration:.01ms!important;
     }
-  }
-
-  /* Orange underline accent */
-  .accent-line{
-    position:relative; display:inline-block;
-  }
-  .accent-line::after{
-    content:''; position:absolute; left:0; right:0; bottom:-4px;
-    height:3px; background:#ea580c; border-radius:2px;
   }
 </style>
 </head>
@@ -360,7 +341,6 @@ tailwind.config = {
       </div>
     </div>
 
-    <!-- Hero image - code / laptop, no person -->
     <div class="relative">
       <div class="card overflow-hidden aspect-[4/5]">
         <div class="img-wrap absolute inset-0">
@@ -881,15 +861,13 @@ const LANG_META = {
   no:{label:'NO',dir:'ltr'}, el:{label:'EL',dir:'ltr'}, ar:{label:'AR',dir:'rtl'}
 };
 
-/* ========== PROJECTS — tech-themed images, no women ==========
-   Images chosen: documents, code screens, servers, notebooks, gaming
-*/
+/* ========== PROJECTS — fixed images, tech-themed, no women ========== */
 const PROJECTS = [
   { key:'p1', url:'https://lebenslauf-lamin.vercel.app/',
     img:'https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['JavaScript','Tailwind','PDF'] },
   { key:'p2', url:'https://auracore-coral.vercel.app/',
-    img:'https://images.pexels.com/photos/2085831/pexels-photo-2085831.jpeg?auto=compress&cs=tinysrgb&w=600',
+    img:'https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['Canvas','CSS Anim','Vercel'] },
   { key:'p3', url:'https://lamind-lerne-deutsch.vercel.app/',
     img:'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=600',
@@ -898,10 +876,10 @@ const PROJECTS = [
     img:'https://images.pexels.com/photos/261763/pexels-photo-261763.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['HTML5','Tailwind','Print CSS'] },
   { key:'p5', url:'https://toolbox-world.vercel.app/',
-    img:'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600',
+    img:'https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['Vanilla JS','Web Crypto','PWA'] },
   { key:'p6', url:'https://steel-front-game.vercel.app/',
-    img:'https://images.pexels.com/photos/1174743/pexels-photo-1174743.jpeg?auto=compress&cs=tinysrgb&w=600',
+    img:'https://images.pexels.com/photos/275033/pexels-photo-275033.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['Canvas 2D','Game Loop','Web Audio'] }
 ];
 
@@ -930,7 +908,8 @@ function renderProjects(){
   grid.innerHTML = PROJECTS.map((p,i)=>`
     <article class="card">
       <div class="img-wrap aspect-[16/10] relative">
-        <img src="${p.img}" alt="${t(p.key+'.name')}" loading="lazy" width="600" height="375" />
+        <img src="${p.img}" alt="${t(p.key+'.name')}" loading="lazy" width="600" height="375"
+             onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#ea580c,#d97706)'" />
         <div class="absolute top-3 start-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm border border-line text-[10px] tracking-wider text-ink font-medium">
           <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a]"></span>${t('common.live')}
         </div>
