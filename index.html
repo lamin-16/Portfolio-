@@ -3,19 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#0a0705" />
+<meta name="theme-color" content="#0a0a0d" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
-<title>LAMIN — Future Systems Architect</title>
-<meta name="description" content="LAMIN — Future Systems Architect. Multilingual, holographic, encrypted web systems." />
+<title>LAMIN — Full-Stack Frontend Architect</title>
+<meta name="description" content="LAMIN — Full-Stack Frontend Architect. Clean, fast, secure web systems." />
 
 <!--
-  NOTE FOR ADSTERRA:
-  When you add Adsterra scripts, they need external domains.
-  Update the CSP below to include Adsterra's domains, for example:
-  script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://*.adsterra.com https://*.highperformanceformat.com https://*.profitableratecpm.com;
+  ADSTERRA: When adding ads, update CSP to allow Adsterra domains:
+  script-src ... https://*.adsterra.com https://*.highperformanceformat.com https://*.profitableratecpm.com;
   frame-src  'self' https://*.adsterra.com https://*.highperformanceformat.com;
   img-src    'self' data: https: https://*.adsterra.com;
-  If you don't update CSP, ads will be blocked by the browser.
 -->
 <meta http-equiv="Content-Security-Policy"
       content="default-src 'self';
@@ -23,7 +20,6 @@
                style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                font-src 'self' https://fonts.gstatic.com data:;
                img-src 'self' data: https:;
-               media-src https:;
                frame-src 'self' https:;
                connect-src 'self' https:;
                object-src 'none';
@@ -33,7 +29,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Outfit:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -41,19 +37,20 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        night: '#0a0705',
-        deep:  '#120c07',
-        gold:  '#e8b84b',
-        goldLight: '#f5d47f',
-        amber: '#ff7a1a',
-        cream: '#fff8ee',
-        copper: '#c97a2b'
+        ink:    '#0a0a0d',
+        surface:'#131318',
+        soft:   '#1a1a22',
+        line:   '#26262e',
+        text:   '#f5f5f7',
+        muted:  '#8a8a96',
+        accent: '#a5b4ff',
+        accent2:'#7c7cff',
+        success:'#4ade80'
       },
       fontFamily: {
-        lux: ['"Playfair Display"', 'serif'],
-        sans: ['Outfit', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        ar: ['Cairo', 'sans-serif']
+        ar:   ['Cairo', 'sans-serif']
       }
     }
   }
@@ -61,457 +58,215 @@ tailwind.config = {
 </script>
 
 <style>
-  *{ -webkit-tap-highlight-color: transparent; }
-  html{ scroll-behavior:smooth; scroll-padding-top: 120px; }
+  *{ -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:100px; }
   body{
-    background:#0a0705;
-    color:#e8dccb;
+    background:#0a0a0d;
+    color:#f5f5f7;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
-    font-family:'Outfit', sans-serif;
-    font-weight:300;
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
   }
-  ::selection{ background:rgba(232,184,75,.4); color:#fff8ee; }
-  ::-webkit-scrollbar{ width:11px; height:11px; }
-  ::-webkit-scrollbar-track{ background:#0a0705; }
-  ::-webkit-scrollbar-thumb{
-    background:linear-gradient(180deg,#e8b84b,#ff7a1a,#c97a2b);
-    border-radius:99px;
-  }
+  ::selection{ background:rgba(165,180,255,.3); color:#fff; }
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:#0a0a0d; }
+  ::-webkit-scrollbar-thumb{ background:#26262e; border-radius:99px; }
+  ::-webkit-scrollbar-thumb:hover{ background:#3a3a45; }
 
-  /* Arabic */
-  [dir="rtl"] body{ font-family:'Cairo', 'Outfit', sans-serif; }
-  [dir="rtl"] .font-lux{ font-family:'Cairo', serif; letter-spacing:0 !important; }
+  [dir="rtl"] body{ font-family:'Cairo', 'Inter', sans-serif; }
 
-  /* ============ BACKGROUND ============ */
-  .bg-base{
-    position:fixed; inset:0; z-index:-3;
+  /* Simple, fast background */
+  .bg-main{
+    position:fixed; inset:0; z-index:-1;
     background:
-      radial-gradient(ellipse 90% 60% at 15% 0%, rgba(255,122,26,.18), transparent 55%),
-      radial-gradient(ellipse 70% 60% at 85% 25%, rgba(232,184,75,.16), transparent 55%),
-      radial-gradient(ellipse 100% 60% at 50% 100%, rgba(201,122,43,.14), transparent 60%),
-      linear-gradient(180deg, #0a0705 0%, #120c07 50%, #0a0705 100%);
-  }
-  .bg-lux-grid{
-    position:fixed; inset:0; z-index:-2;
-    background-image:
-      linear-gradient(rgba(232,184,75,.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(232,184,75,.06) 1px, transparent 1px);
-    background-size:80px 80px;
-    -webkit-mask-image:radial-gradient(ellipse 100% 80% at 50% 30%, #000 5%, transparent 75%);
-    mask-image:radial-gradient(ellipse 100% 80% at 50% 30%, #000 5%, transparent 75%);
-    animation:gridDrift 50s linear infinite;
-  }
-  @keyframes gridDrift{
-    0%{ background-position:0 0, 0 0; }
-    100%{ background-position:80px 80px, 80px 80px; }
-  }
-  .grain{
-    position:fixed; inset:0; z-index:-1; opacity:.05; pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  .glow{
-    position:fixed; border-radius:50%; filter:blur(140px); pointer-events:none; z-index:-1;
-    animation:glowFloat 26s ease-in-out infinite;
-  }
-  .glow-1{ width:800px; height:800px; top:-300px; left:-250px;
-    background:radial-gradient(circle, rgba(255,122,26,.6), transparent 70%); }
-  .glow-2{ width:700px; height:700px; top:15%; right:-250px;
-    background:radial-gradient(circle, rgba(232,184,75,.5), transparent 70%);
-    animation-delay:-9s; }
-  .glow-3{ width:750px; height:750px; bottom:-300px; left:25%;
-    background:radial-gradient(circle, rgba(201,122,43,.5), transparent 70%);
-    animation-delay:-18s; }
-  @keyframes glowFloat{
-    0%,100%{ transform:translate3d(0,0,0) scale(1); opacity:.85; }
-    33%{ transform:translate3d(60px,-50px,0) scale(1.15); opacity:1; }
-    66%{ transform:translate3d(-50px,50px,0) scale(1.1); opacity:.9; }
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,124,255,.10), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 90%, rgba(165,180,255,.06), transparent 60%),
+      #0a0a0d;
   }
 
-  /* ============ GLASS ============ */
-  .glass{
-    background:linear-gradient(155deg, rgba(30,20,10,.7), rgba(12,8,4,.65));
-    backdrop-filter:blur(24px) saturate(160%);
-    -webkit-backdrop-filter:blur(24px) saturate(160%);
-    border:1px solid rgba(232,184,75,.2);
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.02) inset,
-      0 30px 60px -30px rgba(0,0,0,.8);
+  /* Card — no tilt, no shake, just subtle hover */
+  .card{
+    background:#131318;
+    border:1px solid #26262e;
+    border-radius:20px;
+    transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+    overflow:hidden;
   }
-  .glass-strong{
-    background:linear-gradient(155deg, rgba(30,20,10,.9), rgba(10,7,5,.88));
-    backdrop-filter:blur(30px) saturate(170%);
-    -webkit-backdrop-filter:blur(30px) saturate(170%);
-    border:1px solid rgba(232,184,75,.25);
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.03) inset,
-      0 40px 80px -30px rgba(0,0,0,.85);
-  }
-  .glass-gold{
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.04) inset,
-      0 0 60px -10px rgba(232,184,75,.5),
-      0 40px 80px -30px rgba(0,0,0,.85);
+  .card:hover{
+    border-color:#3a3a45;
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px -20px rgba(0,0,0,.8);
   }
 
-  /* ============ LUX CARD ============ */
-  .lux-card{
-    position:relative; isolation:isolate;
-    transition:transform .6s cubic-bezier(.2,.8,.2,1), box-shadow .55s ease, border-color .4s ease;
-    will-change:transform;
+  /* Panel — solid background, no expensive blur */
+  .panel{
+    background:#131318;
+    border:1px solid #26262e;
+    border-radius:20px;
   }
-  .lux-card::before{
-    content:''; position:absolute; inset:-1px; border-radius:inherit; z-index:-1;
-    background:linear-gradient(135deg, rgba(232,184,75,.7), rgba(255,122,26,.4) 40%, transparent 70%, rgba(201,122,43,.5));
-    opacity:.5; transition:opacity .5s ease;
-  }
-  .lux-card:hover::before{ opacity:1; }
-  .lux-card:hover{
-    transform:translateY(-12px);
-    box-shadow:
-      0 0 0 1px rgba(232,184,75,.4),
-      0 30px 70px -25px rgba(232,184,75,.5),
-      0 0 120px -30px rgba(255,122,26,.5);
-  }
-  .lux-card .spot{
-    position:absolute; inset:0; border-radius:inherit; pointer-events:none; z-index:5;
-    opacity:0; transition:opacity .5s ease;
-    background:radial-gradient(450px circle at var(--mx,50%) var(--my,50%), rgba(232,184,75,.22), transparent 60%);
-  }
-  .lux-card:hover .spot{ opacity:1; }
-
-  /* ============ GRADIENT TEXT ============ */
-  .grad-gold{
-    background:linear-gradient(105deg, #fff8ee 0%, #f5d47f 25%, #e8b84b 50%, #ff7a1a 75%, #fff8ee 100%);
-    -webkit-background-clip:text; background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-size:250% 250%;
-    animation:shine 9s ease infinite;
-  }
-  @keyframes shine{
-    0%,100%{ background-position:0% 50%; }
-    50%{ background-position:100% 50%; }
-  }
-  .grad-cream{
-    background:linear-gradient(180deg, #fff8ee, #e8dccb);
-    -webkit-background-clip:text; background-clip:text;
-    -webkit-text-fill-color:transparent;
+  .panel-glass{
+    background:rgba(19,19,24,.85);
+    border:1px solid #26262e;
+    border-radius:20px;
   }
 
-  /* ============ BRACKETS ============ */
-  .brackets{ position:relative; }
-  .brackets::before, .brackets::after{
-    content:''; position:absolute; width:26px; height:26px;
-    border-color:rgba(232,184,75,.75); pointer-events:none;
-    transition:all .5s cubic-bezier(.2,.8,.2,1);
-  }
-  .brackets::before{ top:-1px; left:-1px; border-top:1.5px solid; border-left:1.5px solid; }
-  .brackets::after{ bottom:-1px; right:-1px; border-bottom:1.5px solid; border-right:1.5px solid; }
-  .brackets:hover::before, .brackets:hover::after{
-    width:48px; height:48px; border-color:#ff7a1a;
-    box-shadow:0 0 25px rgba(255,122,26,.8);
-  }
-  [dir="rtl"] .brackets::before{ left:auto; right:-1px; border-left:none; border-right:1.5px solid; }
-  [dir="rtl"] .brackets::after{ right:auto; left:-1px; border-right:none; border-left:1.5px solid; }
-
-  /* ============ TYPEWRITER ============ */
+  /* Caret */
   .caret::after{
-    content:'▊'; margin-left:3px; color:#e8b84b;
+    content:'▍'; margin-left:3px; color:#a5b4ff;
     animation:blink 1s steps(2,start) infinite;
-    text-shadow:0 0 14px #e8b84b;
   }
   @keyframes blink{ 0%,49%{opacity:1} 50%,100%{opacity:0} }
 
-  /* ============ PULSE DOT ============ */
-  .pulse-dot{
+  /* Pulse dot */
+  .dot{
     position:relative; display:inline-block;
-    width:9px; height:9px; border-radius:50%;
-    background:#e8b84b; box-shadow:0 0 16px #e8b84b;
+    width:7px; height:7px; border-radius:50%;
+    background:#4ade80;
   }
-  .pulse-dot::after{
-    content:''; position:absolute; inset:-5px; border-radius:50%;
-    border:1px solid rgba(232,184,75,.9);
-    animation:ping 1.9s cubic-bezier(0,0,.2,1) infinite;
+  .dot::after{
+    content:''; position:absolute; inset:-4px; border-radius:50%;
+    border:1px solid rgba(74,222,128,.6);
+    animation:ping 2s ease-out infinite;
   }
   @keyframes ping{
-    0%{ transform:scale(.7); opacity:1; }
-    100%{ transform:scale(2.8); opacity:0; }
+    0%{ transform:scale(.8); opacity:1; }
+    100%{ transform:scale(2.4); opacity:0; }
   }
 
-  /* ============ CLI ============ */
-  .cli-line{ line-height:1.8; word-break:break-word; }
-  .cli-out{ animation:fadeUp .3s ease both; }
-  @keyframes fadeUp{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  /* CLI output */
+  .cli-line{ line-height:1.7; word-break:break-word; }
 
-  /* ============ LANGUAGE ============ */
-  .lang-btn{ transition:all .25s ease; }
-  .lang-btn.active{
-    background:linear-gradient(135deg, rgba(232,184,75,.25), rgba(255,122,26,.18));
-    color:#f5d47f;
-    border-color:rgba(232,184,75,.7) !important;
-    box-shadow:0 0 25px rgba(232,184,75,.4);
+  /* Smooth image loading */
+  .img-wrap{
+    position:relative; overflow:hidden; background:#0f0f14;
   }
-
-  /* ============ HERO VIDEO ============ */
-  .hero-video-wrap{
-    position:relative; overflow:hidden; border-radius:28px; isolation:isolate;
-    box-shadow:0 40px 100px -40px rgba(232,184,75,.5), 0 0 0 1px rgba(232,184,75,.3);
+  .img-wrap img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .6s ease, filter .3s ease;
+    filter:brightness(.7) contrast(1.05) saturate(.9);
   }
-  .hero-video-wrap video{
-    width:100%; height:100%; object-fit:cover;
-    filter:saturate(1.1) contrast(1.08) brightness(.9) sepia(.15);
-  }
-  .hero-video-wrap::after{
-    content:''; position:absolute; inset:0; pointer-events:none;
-    background:
-      linear-gradient(160deg, rgba(232,184,75,.25), transparent 45%),
-      linear-gradient(to top, rgba(10,7,5,.98) 5%, transparent 55%);
-  }
-  .hero-video-wrap::before{
-    content:''; position:absolute; inset:0; pointer-events:none; z-index:2;
-    background:linear-gradient(180deg, transparent 0%, transparent 45%, rgba(232,184,75,.1) 50%, transparent 55%, transparent 100%);
-    animation:scanOverlay 7s linear infinite;
-  }
-  @keyframes scanOverlay{
-    0%{ transform:translateY(-100%); }
-    100%{ transform:translateY(100%); }
+  .card:hover .img-wrap img{
+    transform:scale(1.04);
+    filter:brightness(.85) contrast(1.05) saturate(1);
   }
 
-  /* ============ PROJ MEDIA ============ */
-  .proj-media{
-    position:relative; overflow:hidden; background:#120c07;
+  /* Marquee — slowed down, uses transform only */
+  .marquee{
+    display:flex; gap:3rem; width:max-content;
+    animation:marquee 60s linear infinite;
+    will-change:transform;
   }
-  .proj-media video{
-    width:100%; height:100%; object-fit:cover;
-    transition:transform 1.4s cubic-bezier(.2,.8,.2,1), filter .6s ease;
-    filter:saturate(1.1) brightness(.75) sepia(.1);
-  }
-  .lux-card:hover .proj-media video{
-    transform:scale(1.1);
-    filter:saturate(1.25) brightness(1) sepia(.05);
-  }
-  .proj-media::after{
-    content:''; position:absolute; inset:0; pointer-events:none; z-index:2;
-    background:
-      linear-gradient(to top, rgba(10,7,5,.98) 5%, rgba(10,7,5,.5) 40%, transparent 70%),
-      linear-gradient(160deg, rgba(232,184,75,.2), transparent 40%);
-  }
-  .proj-media::before{
-    content:''; position:absolute; left:0; right:0; height:30%; top:-40%;
-    background:linear-gradient(180deg, transparent, rgba(232,184,75,.25), transparent);
-    animation:scanMove 5.5s linear infinite; z-index:3; pointer-events:none;
-  }
-  @keyframes scanMove{
-    0%{ top:-40%; }
-    100%{ top:140%; }
+  @keyframes marquee{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
   }
 
-  /* ============ RTL ============ */
-  [dir="rtl"] .rtl-flip{ transform:scaleX(-1); }
-
-  /* ============ LOADER ============ */
-  #loader{
-    position:fixed; inset:0; z-index:9999;
-    background:radial-gradient(ellipse at center, #120c07, #0a0705);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
-    transition:opacity .7s ease, visibility .7s ease;
-  }
-  #loader.hide{ opacity:0; visibility:hidden; }
-  .loader-ring{
-    width:90px; height:90px; border-radius:50%;
-    border:2px solid rgba(232,184,75,.15);
-    border-top-color:#e8b84b;
-    border-right-color:#ff7a1a;
-    animation:spin 1.1s linear infinite;
-    box-shadow:0 0 45px rgba(232,184,75,.6), 0 0 90px rgba(255,122,26,.4);
-  }
-  @keyframes spin{ to{ transform:rotate(360deg); } }
-  .loader-text{
-    font-family:'JetBrains Mono', monospace;
-    font-size:12px; letter-spacing:.45em;
-    color:#e8b84b; text-transform:uppercase;
-    animation:pulse 1.6s ease-in-out infinite;
-  }
-  @keyframes pulse{ 0%,100%{opacity:.5;} 50%{opacity:1;} }
-
-  /* ============ CURSOR ============ */
-  #cursorDot, #cursorRing{ position:fixed; top:0; left:0; pointer-events:none; z-index:9999; opacity:0; transition:opacity .3s; }
-  html.custom-cursor #cursorDot,
-  html.custom-cursor #cursorRing{ opacity:1; }
-  #cursorDot{
-    width:6px; height:6px; margin:-3px 0 0 -3px; border-radius:50%;
-    background:#e8b84b; box-shadow:0 0 18px #e8b84b, 0 0 40px rgba(232,184,75,.7);
-  }
-  #cursorRing{
-    width:48px; height:48px; margin:-24px 0 0 -24px; border-radius:50%;
-    border:1px solid rgba(232,184,75,.7);
-    transition:width .3s, height .3s, margin .3s, border-color .3s, background .3s, opacity .3s;
-  }
-  #cursorRing.hover{
-    width:80px; height:80px; margin:-40px 0 0 -40px;
-    border-color:rgba(255,122,26,1); background:rgba(232,184,75,.1);
-  }
-  @media (hover:none),(pointer:coarse){ #cursorDot,#cursorRing{ display:none!important; } }
-
-  /* ============ PROGRESS ============ */
-  #scrollProgress{
-    position:fixed; top:0; left:0; height:3px; width:0%; z-index:100;
-    background:linear-gradient(90deg,#e8b84b,#ff7a1a,#c97a2b,#e8b84b);
-    box-shadow:0 0 18px rgba(232,184,75,1);
-    transition:width .1s linear;
-  }
-
-  /* ============ SCROLL CUE ============ */
-  .scroll-cue{
-    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
-    display:flex; flex-direction:column; align-items:center; gap:10px;
-    font-family:'JetBrains Mono', monospace; font-size:10px;
-    letter-spacing:.35em; color:rgba(232,184,75,.7);
-  }
-  .scroll-cue span{
-    width:1px; height:50px;
-    background:linear-gradient(180deg, rgba(232,184,75,.9), transparent);
-    animation:scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse{
-    0%,100%{ transform:scaleY(.4); opacity:.4; transform-origin:top; }
-    50%{ transform:scaleY(1); opacity:1; transform-origin:top; }
-  }
-
-  /* ============ MARQUEE ============ */
-  .marquee-track{
-    display:flex; gap:4rem; width:max-content;
-    animation:marquee 45s linear infinite;
-  }
-  @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
-
-  /* ============ AD SLOTS ============ */
+  /* Ad slot */
   .ad-slot{
     position:relative;
     display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg, rgba(30,20,10,.5), rgba(12,8,4,.4));
-    border:1px dashed rgba(232,184,75,.35);
-    border-radius:16px;
-    padding:20px;
+    background:#0f0f14;
+    border:1px dashed #26262e;
+    border-radius:14px;
+    padding:16px;
     min-height:100px;
     overflow:hidden;
-    margin: 40px auto;
+    margin:32px auto;
   }
   .ad-slot::before{
     content:'ADVERTISEMENT';
-    position:absolute; top:8px; left:12px;
+    position:absolute; top:6px; left:12px;
     font-family:'JetBrains Mono', monospace;
-    font-size:9px; letter-spacing:.3em;
-    color:rgba(232,184,75,.5);
+    font-size:8.5px; letter-spacing:.3em;
+    color:#4a4a55;
   }
   .ad-slot::after{
     content:attr(data-size);
-    position:absolute; bottom:8px; right:12px;
+    position:absolute; bottom:6px; right:12px;
     font-family:'JetBrains Mono', monospace;
-    font-size:9px; letter-spacing:.2em;
-    color:rgba(232,184,75,.4);
-  }
-  .ad-slot-inner{
-    width:100%; display:flex; align-items:center; justify-content:center;
-    min-height:inherit;
+    font-size:8.5px; letter-spacing:.2em;
+    color:#3a3a45;
   }
 
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce){
-    *,*::before,*::after{ animation-duration:.01ms!important; transition-duration:.01ms!important; }
-  }
-
+  /* Focus */
   a:focus-visible, button:focus-visible, input:focus-visible{
-    outline:2px solid #e8b84b; outline-offset:3px; border-radius:6px;
+    outline:2px solid #a5b4ff; outline-offset:2px; border-radius:8px;
+  }
+
+  /* Disable all heavy animation on mobile for speed */
+  @media (max-width: 768px){
+    .marquee{ animation-duration: 90s; }
+    .dot::after{ animation:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms!important;
+      transition-duration:.01ms!important;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-ring"></div>
-  <div class="loader-text">INITIALIZING LUXURY</div>
-</div>
-
-<div id="cursorDot" aria-hidden="true"></div>
-<div id="cursorRing" aria-hidden="true"></div>
-<div id="scrollProgress" aria-hidden="true"></div>
-
-<!-- BACKGROUND -->
-<div class="bg-base"></div>
-<div class="bg-lux-grid"></div>
-<div class="grain"></div>
-<div class="glow glow-1"></div>
-<div class="glow glow-2"></div>
-<div class="glow glow-3"></div>
+<div class="bg-main"></div>
 
 <!-- ============================================================
      HEADER
      ============================================================ -->
 <header class="fixed top-0 inset-x-0 z-50">
-  <div class="glass-strong border-b border-gold/20">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-8">
-      <div class="h-[80px] flex items-center justify-between gap-3">
+  <div class="panel-glass" style="border-radius:0; border-left:none; border-right:none; border-top:none;">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="h-[68px] flex items-center justify-between gap-3">
 
-        <a href="#hero" class="flex items-center gap-3 shrink-0 group">
-          <span class="relative grid place-items-center w-12 h-12 rounded-2xl border border-gold/60 bg-gold/5 overflow-hidden">
-            <span class="font-lux font-black text-gold text-xl">L</span>
-            <span class="absolute inset-0 bg-gradient-to-tr from-gold/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></span>
-            <span class="absolute inset-0 rounded-2xl ring-1 ring-gold/40 group-hover:ring-gold/90 transition-all"></span>
-          </span>
-          <div class="hidden sm:block leading-tight">
-            <div class="font-lux font-bold text-cream text-base tracking-wide">LAMIN<span class="text-gold">.</span>DEV</div>
-            <div class="font-mono text-[10px] tracking-[0.35em] text-gold/80">FUTURE SYSTEMS</div>
-          </div>
+        <a href="#hero" class="flex items-center gap-3 shrink-0">
+          <span class="grid place-items-center w-9 h-9 rounded-xl bg-white text-ink font-bold text-sm">L</span>
+          <span class="hidden sm:block font-semibold text-[15px] tracking-tight text-white">LAMIN<span class="text-accent">.</span>DEV</span>
         </a>
 
-        <nav class="hidden xl:flex items-center gap-1 font-mono text-[13.5px]">
-          <a href="#hero"     class="px-4 py-2 text-cream/75 hover:text-gold transition-colors" data-i18n="nav.home">./home</a>
-          <a href="#projects" class="px-4 py-2 text-cream/75 hover:text-gold transition-colors" data-i18n="nav.projects">./projects</a>
-          <a href="#terminal" class="px-4 py-2 text-cream/75 hover:text-gold transition-colors" data-i18n="nav.terminal">./terminal</a>
-          <a href="#arsenal"  class="px-4 py-2 text-cream/75 hover:text-gold transition-colors" data-i18n="nav.skills">./skills</a>
-          <a href="#contact"  class="px-4 py-2 text-cream/75 hover:text-gold transition-colors" data-i18n="nav.contact">./contact</a>
+        <nav class="hidden lg:flex items-center gap-1 text-[13.5px]">
+          <a href="#hero"     class="px-3.5 py-2 text-muted hover:text-white transition-colors" data-i18n="nav.home">Home</a>
+          <a href="#projects" class="px-3.5 py-2 text-muted hover:text-white transition-colors" data-i18n="nav.projects">Projects</a>
+          <a href="#terminal" class="px-3.5 py-2 text-muted hover:text-white transition-colors" data-i18n="nav.terminal">Terminal</a>
+          <a href="#arsenal"  class="px-3.5 py-2 text-muted hover:text-white transition-colors" data-i18n="nav.skills">Skills</a>
+          <a href="#contact"  class="px-3.5 py-2 text-muted hover:text-white transition-colors" data-i18n="nav.contact">Contact</a>
         </nav>
 
         <div class="flex items-center gap-2">
           <div class="relative">
             <button id="langBtn" type="button"
-                    class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-gold/40 bg-gold/5 font-mono text-[11.5px] text-gold hover:bg-gold/15 transition-colors">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>
-              </svg>
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl border border-line text-muted hover:text-white hover:border-[#3a3a45] transition-colors text-[12.5px]">
               <span id="langLabel">EN</span>
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
             </button>
-            <div id="langMenu"
-                 class="hidden absolute top-full mt-2 end-0 w-60 glass-strong rounded-2xl overflow-hidden shadow-2xl z-50 glass-gold">
-              <div class="p-2">
-                <button data-lang="en" class="lang-btn w-full text-start px-4 py-3 rounded-xl text-cream/85 hover:bg-white/5 flex items-center gap-3 text-[15px]"><span class="text-xl">🇬🇧</span><span>English</span></button>
-                <button data-lang="de" class="lang-btn w-full text-start px-4 py-3 rounded-xl text-cream/85 hover:bg-white/5 flex items-center gap-3 text-[15px]"><span class="text-xl">🇩🇪</span><span>Deutsch</span></button>
-                <button data-lang="ru" class="lang-btn w-full text-start px-4 py-3 rounded-xl text-cream/85 hover:bg-white/5 flex items-center gap-3 text-[15px]"><span class="text-xl">🇷🇺</span><span>Русский</span></button>
-                <button data-lang="no" class="lang-btn w-full text-start px-4 py-3 rounded-xl text-cream/85 hover:bg-white/5 flex items-center gap-3 text-[15px]"><span class="text-xl">🇳🇴</span><span>Norsk</span></button>
-                <button data-lang="el" class="lang-btn w-full text-start px-4 py-3 rounded-xl text-cream/85 hover:bg-white/5 flex items-center gap-3 text-[15px]"><span class="text-xl">🇬🇷</span><span>Ελληνικά</span></button>
-                <button data-lang="ar" class="lang-btn w-full text-start px-4 py-3 rounded-xl text-cream/85 hover:bg-white/5 flex items-center gap-3 text-[15px]"><span class="text-xl">🇸🇦</span><span>العربية</span></button>
+            <div id="langMenu" class="hidden absolute top-full mt-2 end-0 w-52 panel shadow-2xl z-50 overflow-hidden">
+              <div class="p-1.5">
+                <button data-lang="en" class="lang-btn w-full text-start px-3 py-2.5 rounded-lg text-muted hover:text-white hover:bg-soft flex items-center gap-3 text-[13.5px]"><span>🇬🇧</span> English</button>
+                <button data-lang="de" class="lang-btn w-full text-start px-3 py-2.5 rounded-lg text-muted hover:text-white hover:bg-soft flex items-center gap-3 text-[13.5px]"><span>🇩🇪</span> Deutsch</button>
+                <button data-lang="ru" class="lang-btn w-full text-start px-3 py-2.5 rounded-lg text-muted hover:text-white hover:bg-soft flex items-center gap-3 text-[13.5px]"><span>🇷🇺</span> Русский</button>
+                <button data-lang="no" class="lang-btn w-full text-start px-3 py-2.5 rounded-lg text-muted hover:text-white hover:bg-soft flex items-center gap-3 text-[13.5px]"><span>🇳🇴</span> Norsk</button>
+                <button data-lang="el" class="lang-btn w-full text-start px-3 py-2.5 rounded-lg text-muted hover:text-white hover:bg-soft flex items-center gap-3 text-[13.5px]"><span>🇬🇷</span> Ελληνικά</button>
+                <button data-lang="ar" class="lang-btn w-full text-start px-3 py-2.5 rounded-lg text-muted hover:text-white hover:bg-soft flex items-center gap-3 text-[13.5px]"><span>🇸🇦</span> العربية</button>
               </div>
             </div>
           </div>
 
           <button id="menuBtn" type="button"
-                  class="xl:hidden grid place-items-center w-12 h-12 rounded-xl border border-gold/40 text-gold hover:bg-gold/10 transition-colors">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                  class="lg:hidden grid place-items-center w-10 h-10 rounded-xl border border-line text-white">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
           </button>
         </div>
       </div>
     </div>
 
-    <div id="mobileNav" class="xl:hidden hidden border-t border-gold/15 bg-night/95 backdrop-blur-xl">
-      <nav class="max-w-[1600px] mx-auto px-4 py-4 flex flex-col font-mono text-base">
-        <a href="#hero"     class="py-4 border-b border-white/5 text-cream/70 hover:text-gold" data-i18n="nav.home">./home</a>
-        <a href="#projects" class="py-4 border-b border-white/5 text-cream/70 hover:text-gold" data-i18n="nav.projects">./projects</a>
-        <a href="#terminal" class="py-4 border-b border-white/5 text-cream/70 hover:text-gold" data-i18n="nav.terminal">./terminal</a>
-        <a href="#arsenal"  class="py-4 border-b border-white/5 text-cream/70 hover:text-gold" data-i18n="nav.skills">./skills</a>
-        <a href="#contact"  class="py-4 text-cream/70 hover:text-gold" data-i18n="nav.contact">./contact</a>
+    <div id="mobileNav" class="lg:hidden hidden border-t border-line bg-ink">
+      <nav class="max-w-[1400px] mx-auto px-4 py-3 flex flex-col text-[15px]">
+        <a href="#hero"     class="py-3 border-b border-line text-muted hover:text-white" data-i18n="nav.home">Home</a>
+        <a href="#projects" class="py-3 border-b border-line text-muted hover:text-white" data-i18n="nav.projects">Projects</a>
+        <a href="#terminal" class="py-3 border-b border-line text-muted hover:text-white" data-i18n="nav.terminal">Terminal</a>
+        <a href="#arsenal"  class="py-3 border-b border-line text-muted hover:text-white" data-i18n="nav.skills">Skills</a>
+        <a href="#contact"  class="py-3 text-muted hover:text-white" data-i18n="nav.contact">Contact</a>
       </nav>
     </div>
   </div>
@@ -522,149 +277,129 @@ tailwind.config = {
 <!-- ============================================================
      HERO
      ============================================================ -->
-<section id="hero" class="relative min-h-screen flex items-center pt-40 pb-28 px-4 sm:px-8">
-  <div class="max-w-[1600px] mx-auto w-full grid lg:grid-cols-[1.05fr_0.95fr] gap-16 lg:gap-24 items-center">
+<section id="hero" class="relative min-h-screen flex items-center pt-32 pb-20 px-4 sm:px-6">
+  <div class="max-w-[1400px] mx-auto w-full grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
     <div>
-      <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-gold/45 bg-gold/5 font-mono text-[12px] tracking-[0.24em] text-gold mb-11 backdrop-blur-sm">
-        <span class="pulse-dot"></span>
-        <span data-i18n="hero.badge">SYSTEM ONLINE — ACCEPTING NEW MISSIONS</span>
+      <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-line bg-surface text-[12px] text-muted mb-8">
+        <span class="dot"></span>
+        <span data-i18n="hero.badge">Available for new projects</span>
       </div>
 
-      <h1 class="font-lux font-black leading-[0.95] tracking-tight text-[3rem] sm:text-[4.8rem] xl:text-[7rem] mb-9">
-        <span class="block text-gold/70 text-sm sm:text-base font-mono font-normal tracking-[0.4em] mb-7" data-i18n="hero.greeting">
-          &gt; IDENTITY_CONFIRMED
-        </span>
-        <span class="block text-cream" data-i18n="hero.title1">FULL-STACK</span>
-        <span class="block grad-gold italic" data-i18n="hero.title2">Frontend Architect</span>
+      <h1 class="font-extrabold leading-[1.02] tracking-[-0.03em] text-[2.75rem] sm:text-[4rem] lg:text-[4.75rem] text-white mb-7">
+        <span class="block" data-i18n="hero.title1">Full-Stack</span>
+        <span class="block text-muted" data-i18n="hero.title2">Frontend Architect</span>
       </h1>
 
-      <div class="mt-9 font-mono text-[16px] sm:text-[18px] text-cream/85 h-8 mb-4">
-        <span class="text-gold">&gt;</span>
-        <span id="typedText" class="ms-3 caret"></span>
+      <div class="text-[16px] text-muted h-7 mb-6 font-mono">
+        <span class="text-accent">›</span>
+        <span id="typedText" class="ms-2 caret text-white"></span>
       </div>
 
-      <p class="mt-9 max-w-2xl text-cream/75 leading-relaxed text-[17px] sm:text-[19px] font-light" data-i18n="hero.desc">
-        I engineer defense-grade interfaces and high-performance web systems — blending pixel-obsessed design with hardened, production-ready architecture. Six live applications deployed. Zero compromises.
+      <p class="max-w-xl text-muted leading-relaxed text-[16.5px] mb-10" data-i18n="hero.desc">
+        I engineer defense-grade interfaces and high-performance web systems — blending clean design with hardened, production-ready architecture. Six live applications deployed. Zero compromises.
       </p>
 
-      <div class="mt-12 flex flex-wrap items-center gap-4">
+      <div class="flex flex-wrap items-center gap-3 mb-10">
         <a href="#projects"
-           class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-mono text-[15px] font-semibold text-night overflow-hidden transition-transform duration-300 hover:scale-[1.03] shadow-[0_0_50px_rgba(232,184,75,.6)]"
-           style="background:linear-gradient(120deg,#f5d47f,#e8b84b,#ff7a1a,#e8b84b);background-size:200% 200%;animation:shine 7s ease infinite;">
-          <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/70 to-transparent"></span>
-          <span class="relative" data-i18n="hero.btn1">EXPLORE SYSTEMS</span>
-          <svg class="relative w-5 h-5 rtl-flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white text-ink font-semibold text-[14.5px] hover:bg-accent transition-colors">
+          <span data-i18n="hero.btn1">View Projects</span>
+          <svg class="w-4 h-4 rtl-flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-
         <a href="#terminal"
-           class="inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-mono text-[15px] border border-gold/50 text-gold hover:bg-gold/10 transition-all duration-300 backdrop-blur-sm">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-5-6-5M12 19h8"/></svg>
-          <span data-i18n="hero.btn2">OPEN TERMINAL</span>
+           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-line text-white font-medium text-[14.5px] hover:border-[#3a3a45] hover:bg-surface transition-colors">
+          <span data-i18n="hero.btn2">Open Terminal</span>
         </a>
       </div>
 
-      <div class="mt-14 flex flex-wrap items-center gap-x-10 gap-y-4 font-mono text-[12px] tracking-[0.2em] text-cream/60">
-        <span class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-          <span data-i18n="hero.f1">SSL 256-BIT</span>
+      <div class="flex flex-wrap items-center gap-x-7 gap-y-3 text-[12.5px] text-muted">
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <span data-i18n="hero.f1">SSL 256-bit encrypted</span>
         </span>
-        <span class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4Z"/></svg>
-          <span data-i18n="hero.f2">CSP HARDENED</span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4Z"/></svg>
+          <span data-i18n="hero.f2">CSP hardened</span>
         </span>
-        <span class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
-          <span data-i18n="hero.f3">EDGE-DEPLOYED</span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+          <span data-i18n="hero.f3">Edge-deployed</span>
         </span>
       </div>
     </div>
 
+    <!-- Hero image -->
     <div class="relative">
-      <div class="hero-video-wrap aspect-[4/5] sm:aspect-[5/6] lux-card">
-        <video autoplay muted loop playsinline preload="auto"
-               poster="https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=900">
-          <source src="https://videos.pexels.com/video-files/3130284/3130284-hd_1920_1080_30fps.mp4" type="video/mp4" />
-        </video>
-        <div class="absolute inset-0 flex flex-col justify-end p-8 sm:p-10 z-10 pointer-events-none">
-          <div class="glass-strong rounded-2xl p-7 brackets pointer-events-auto">
-            <div class="flex items-center gap-3 mb-5">
-              <span class="pulse-dot"></span>
-              <span class="font-mono text-[11px] tracking-[0.28em] text-gold">LIVE • READY</span>
-            </div>
-            <div class="font-lux font-black text-4xl sm:text-5xl text-cream mb-2">
-              LAMIN<span class="text-gold">.</span>DEV
-            </div>
-            <div class="font-mono text-[12px] text-cream/75 tracking-wide" data-i18n="hero.tagline">
-              Multi-language • Defense-grade • Edge-deployed
-            </div>
+      <div class="card overflow-hidden aspect-[4/5]">
+        <div class="img-wrap absolute inset-0">
+          <img src="https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=900"
+               alt="Modern workspace" loading="eager" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 inset-x-0 p-7">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="dot"></span>
+            <span class="font-mono text-[11px] tracking-wider text-success">ONLINE</span>
           </div>
+          <div class="font-extrabold text-2xl text-white mb-1 tracking-tight">LAMIN<span class="text-accent">.</span>DEV</div>
+          <div class="text-[13px] text-muted" data-i18n="hero.tagline">Multi-language · Secure · Edge-deployed</div>
         </div>
       </div>
 
-      <div class="grid grid-cols-3 gap-4 mt-5">
-        <div class="glass rounded-2xl px-4 py-5 text-center">
-          <div class="font-lux font-black text-gold text-3xl leading-none" data-count="6">6</div>
-          <div class="font-mono text-[10px] tracking-[0.18em] text-cream/55 mt-2.5" data-i18n="hero.s1">APPS LIVE</div>
+      <div class="grid grid-cols-3 gap-3 mt-4">
+        <div class="panel px-3 py-4 text-center">
+          <div class="font-extrabold text-white text-2xl leading-none">6</div>
+          <div class="text-[10.5px] tracking-wider text-muted mt-2 uppercase" data-i18n="hero.s1">Apps Live</div>
         </div>
-        <div class="glass rounded-2xl px-4 py-5 text-center">
-          <div class="font-lux font-black text-gold text-3xl leading-none" data-count="6">6</div>
-          <div class="font-mono text-[10px] tracking-[0.18em] text-cream/55 mt-2.5" data-i18n="hero.s2">LANGUAGES</div>
+        <div class="panel px-3 py-4 text-center">
+          <div class="font-extrabold text-white text-2xl leading-none">6</div>
+          <div class="text-[10.5px] tracking-wider text-muted mt-2 uppercase" data-i18n="hero.s2">Languages</div>
         </div>
-        <div class="glass rounded-2xl px-4 py-5 text-center">
-          <div class="font-lux font-black text-gold text-3xl leading-none" data-count="256" data-suffix="-bit">256-bit</div>
-          <div class="font-mono text-[10px] tracking-[0.18em] text-cream/55 mt-2.5" data-i18n="hero.s3">ENCRYPT</div>
+        <div class="panel px-3 py-4 text-center">
+          <div class="font-extrabold text-white text-2xl leading-none">256</div>
+          <div class="text-[10.5px] tracking-wider text-muted mt-2 uppercase" data-i18n="hero.s3">Bit Encrypt</div>
         </div>
       </div>
     </div>
 
-  </div>
-
-  <div class="scroll-cue hidden lg:flex">
-    <span></span>
-    SCROLL
   </div>
 </section>
 
-<!-- ============ AD SLOT 1 — After hero (Leaderboard 728x90) ============ -->
-<div class="max-w-[1600px] mx-auto px-4 sm:px-8">
+<!-- AD SLOT 1 -->
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6">
   <div class="ad-slot" data-size="728 x 90">
-    <div class="ad-slot-inner">
-      <!-- ADSTERRA-1: PASTE YOUR 728x90 LEADERBOARD AD CODE HERE -->
-    </div>
+    <!-- ADSTERRA-1: Paste your 728x90 ad code here -->
   </div>
 </div>
 
-<!-- ============================================================
-     MARQUEE
-     ============================================================ -->
-<section class="relative py-9 border-y border-gold/15 bg-night/40 overflow-hidden backdrop-blur-sm">
-  <div class="marquee-track font-mono text-[12.5px] tracking-[0.32em] text-cream/55">
-    <span class="flex gap-16">
-      <span>HTML5</span><span class="text-gold/70">◆</span>
-      <span>CSS3</span><span class="text-gold/70">◆</span>
-      <span>TAILWIND</span><span class="text-gold/70">◆</span>
-      <span>JAVASCRIPT ES6+</span><span class="text-gold/70">◆</span>
-      <span>REACT</span><span class="text-gold/70">◆</span>
-      <span>VITE</span><span class="text-gold/70">◆</span>
-      <span>NODE.JS</span><span class="text-gold/70">◆</span>
-      <span>CANVAS API</span><span class="text-gold/70">◆</span>
-      <span>WEB SECURITY</span><span class="text-gold/70">◆</span>
-      <span>UI / UX SYSTEMS</span><span class="text-gold/70">◆</span>
-      <span>PWA</span><span class="text-gold/70">◆</span>
+<!-- Marquee -->
+<section class="relative py-6 border-y border-line overflow-hidden">
+  <div class="marquee font-mono text-[12px] tracking-[0.2em] text-muted uppercase">
+    <span class="flex gap-12">
+      <span>HTML5</span><span class="text-line">•</span>
+      <span>CSS3</span><span class="text-line">•</span>
+      <span>Tailwind</span><span class="text-line">•</span>
+      <span>JavaScript ES6+</span><span class="text-line">•</span>
+      <span>React</span><span class="text-line">•</span>
+      <span>Vite</span><span class="text-line">•</span>
+      <span>Node.js</span><span class="text-line">•</span>
+      <span>Canvas API</span><span class="text-line">•</span>
+      <span>Web Security</span><span class="text-line">•</span>
+      <span>UI / UX</span><span class="text-line">•</span>
+      <span>PWA</span><span class="text-line">•</span>
     </span>
-    <span class="flex gap-16" aria-hidden="true">
-      <span>HTML5</span><span class="text-gold/70">◆</span>
-      <span>CSS3</span><span class="text-gold/70">◆</span>
-      <span>TAILWIND</span><span class="text-gold/70">◆</span>
-      <span>JAVASCRIPT ES6+</span><span class="text-gold/70">◆</span>
-      <span>REACT</span><span class="text-gold/70">◆</span>
-      <span>VITE</span><span class="text-gold/70">◆</span>
-      <span>NODE.JS</span><span class="text-gold/70">◆</span>
-      <span>CANVAS API</span><span class="text-gold/70">◆</span>
-      <span>WEB SECURITY</span><span class="text-gold/70">◆</span>
-      <span>UI / UX SYSTEMS</span><span class="text-gold/70">◆</span>
-      <span>PWA</span><span class="text-gold/70">◆</span>
+    <span class="flex gap-12" aria-hidden="true">
+      <span>HTML5</span><span class="text-line">•</span>
+      <span>CSS3</span><span class="text-line">•</span>
+      <span>Tailwind</span><span class="text-line">•</span>
+      <span>JavaScript ES6+</span><span class="text-line">•</span>
+      <span>React</span><span class="text-line">•</span>
+      <span>Vite</span><span class="text-line">•</span>
+      <span>Node.js</span><span class="text-line">•</span>
+      <span>Canvas API</span><span class="text-line">•</span>
+      <span>Web Security</span><span class="text-line">•</span>
+      <span>UI / UX</span><span class="text-line">•</span>
+      <span>PWA</span><span class="text-line">•</span>
     </span>
   </div>
 </section>
@@ -672,26 +407,24 @@ tailwind.config = {
 <!-- ============================================================
      PROJECTS
      ============================================================ -->
-<section id="projects" class="relative py-32 sm:py-44 px-4 sm:px-8">
-  <div class="max-w-[1600px] mx-auto">
+<section id="projects" class="relative py-24 sm:py-32 px-4 sm:px-6">
+  <div class="max-w-[1400px] mx-auto">
 
-    <div class="mb-24 max-w-4xl">
-      <div class="font-mono text-[12px] tracking-[0.5em] text-gold/85 mb-6" data-i18n="projects.tag">// 01 — DEPLOYED SYSTEMS</div>
-      <h2 class="font-lux font-black text-5xl sm:text-7xl xl:text-8xl text-cream tracking-tight mb-7 leading-[1.0]">
-        <span data-i18n="projects.title1">Live</span> <span class="grad-gold italic" data-i18n="projects.title2">Applications</span>
+    <div class="mb-14 max-w-2xl">
+      <div class="text-[12.5px] tracking-[0.2em] text-muted uppercase mb-4" data-i18n="projects.tag">01 — Deployed Systems</div>
+      <h2 class="font-extrabold text-[2.25rem] sm:text-[3.25rem] text-white tracking-[-0.03em] mb-5 leading-[1.05]">
+        <span data-i18n="projects.title1">Live</span> <span class="text-muted" data-i18n="projects.title2">Applications</span>
       </h2>
-      <p class="text-cream/70 leading-relaxed text-[17px] sm:text-[19px] font-light" data-i18n="projects.desc">
+      <p class="text-muted leading-relaxed text-[16px]" data-i18n="projects.desc">
         Six production systems, all deployed and battle-tested on the edge. Every build ships with hardened external links, optimized payloads and responsive layouts.
       </p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid"></div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="projectsGrid"></div>
 
-    <!-- ============ AD SLOT 2 — After projects grid (300x250) ============ -->
-    <div class="ad-slot" data-size="300 x 250" style="max-width:340px;">
-      <div class="ad-slot-inner">
-        <!-- ADSTERRA-2: PASTE YOUR 300x250 MEDIUM RECTANGLE AD CODE HERE -->
-      </div>
+    <!-- AD SLOT 2 -->
+    <div class="ad-slot" data-size="300 x 250" style="max-width:320px;">
+      <!-- ADSTERRA-2: Paste your 300x250 ad code here -->
     </div>
   </div>
 </section>
@@ -699,134 +432,132 @@ tailwind.config = {
 <!-- ============================================================
      TERMINAL
      ============================================================ -->
-<section id="terminal" class="relative py-32 sm:py-44 px-4 sm:px-8">
-  <div class="max-w-6xl mx-auto">
+<section id="terminal" class="relative py-24 sm:py-32 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
 
-    <div class="text-center mb-20">
-      <div class="font-mono text-[12px] tracking-[0.5em] text-gold/85 mb-6" data-i18n="terminal.tag">// 02 — COMMAND CENTER</div>
-      <h2 class="font-lux font-black text-5xl sm:text-7xl xl:text-8xl text-cream tracking-tight mb-7">
-        <span data-i18n="terminal.title1">Interactive</span> <span class="grad-gold italic" data-i18n="terminal.title2">Terminal</span>
+    <div class="text-center mb-12">
+      <div class="text-[12.5px] tracking-[0.2em] text-muted uppercase mb-4" data-i18n="terminal.tag">02 — Command Center</div>
+      <h2 class="font-extrabold text-[2.25rem] sm:text-[3.25rem] text-white tracking-[-0.03em] mb-5">
+        <span data-i18n="terminal.title1">Interactive</span> <span class="text-muted" data-i18n="terminal.title2">Terminal</span>
       </h2>
-      <p class="text-cream/70 leading-relaxed max-w-2xl mx-auto font-light text-[17px]" data-i18n="terminal.desc">
-        Type a command and hit ENTER. Start with help.
+      <p class="text-muted leading-relaxed max-w-lg mx-auto text-[16px]" data-i18n="terminal.desc">
+        Type a command and press Enter. Start with help.
       </p>
     </div>
 
-    <div class="brackets glass-strong rounded-3xl overflow-hidden glass-gold">
-      <div class="flex items-center gap-3 px-6 py-4 border-b border-gold/20 bg-black/40">
-        <div class="flex gap-2">
-          <span class="w-3.5 h-3.5 rounded-full bg-red-500/70"></span>
-          <span class="w-3.5 h-3.5 rounded-full bg-gold/80"></span>
-          <span class="w-3.5 h-3.5 rounded-full bg-amber/80"></span>
+    <div class="panel overflow-hidden">
+      <div class="flex items-center gap-3 px-5 py-3.5 border-b border-line bg-soft">
+        <div class="flex gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#3a3a45]"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#3a3a45]"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#3a3a45]"></span>
         </div>
-        <span class="font-mono text-[12px] tracking-widest text-cream/60 ms-3">visitor@lamin:~</span>
-        <span class="ms-auto flex items-center gap-2 font-mono text-[11px] text-gold/90">
-          <span class="pulse-dot"></span>
-          <span data-i18n="terminal.enc">ENCRYPTED SESSION</span>
+        <span class="font-mono text-[12px] text-muted ms-2">visitor@lamin:~</span>
+        <span class="ms-auto flex items-center gap-2 font-mono text-[11px] text-success">
+          <span class="dot"></span>
+          <span data-i18n="terminal.enc">Encrypted session</span>
         </span>
       </div>
 
-      <div id="cliOutput" class="p-6 sm:p-8 font-mono text-[14px] h-[420px] sm:h-[480px] overflow-y-auto"></div>
+      <div id="cliOutput" class="p-5 font-mono text-[13px] h-[360px] overflow-y-auto"></div>
 
-      <div class="flex items-center gap-3 px-6 sm:px-8 py-5 border-t border-gold/20 bg-black/40">
-        <span class="font-mono text-[14px] text-gold shrink-0 select-none">visitor@lamin:~$</span>
+      <div class="flex items-center gap-3 px-5 py-4 border-t border-line bg-soft">
+        <span class="font-mono text-[13px] text-success shrink-0 select-none">$</span>
         <input id="cliInput" type="text"
-               class="flex-1 bg-transparent border-none outline-none font-mono text-[14px] text-cream placeholder-cream/40"
+               class="flex-1 bg-transparent border-none outline-none font-mono text-[13px] text-white placeholder-muted"
                placeholder="type a command..."
                autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
       </div>
     </div>
 
-    <div class="mt-7 flex flex-wrap items-center gap-3">
-      <span class="font-mono text-[11px] tracking-[0.25em] text-cream/50 me-1" data-i18n="terminal.quick">QUICK:</span>
-      <button type="button" data-cmd="help"     class="px-4 py-2.5 rounded-xl border border-gold/35 bg-gold/5 font-mono text-[12px] text-gold/90 hover:bg-gold/15 transition-all">help</button>
-      <button type="button" data-cmd="projects" class="px-4 py-2.5 rounded-xl border border-gold/35 bg-gold/5 font-mono text-[12px] text-gold/90 hover:bg-gold/15 transition-all">projects</button>
-      <button type="button" data-cmd="skills"   class="px-4 py-2.5 rounded-xl border border-gold/35 bg-gold/5 font-mono text-[12px] text-gold/90 hover:bg-gold/15 transition-all">skills</button>
-      <button type="button" data-cmd="security" class="px-4 py-2.5 rounded-xl border border-gold/35 bg-gold/5 font-mono text-[12px] text-gold/90 hover:bg-gold/15 transition-all">security</button>
-      <button type="button" data-cmd="contact"  class="px-4 py-2.5 rounded-xl border border-gold/35 bg-gold/5 font-mono text-[12px] text-gold/90 hover:bg-gold/15 transition-all">contact</button>
-      <button type="button" data-cmd="clear"    class="px-4 py-2.5 rounded-xl border border-red-500/40 bg-red-500/5 font-mono text-[12px] text-red-400 hover:bg-red-500/15 transition-all">clear</button>
+    <div class="mt-5 flex flex-wrap items-center gap-2">
+      <span class="text-[11px] tracking-[0.2em] text-muted uppercase me-1" data-i18n="terminal.quick">Quick:</span>
+      <button type="button" data-cmd="help"     class="px-3.5 py-1.5 rounded-lg border border-line bg-surface font-mono text-[12px] text-muted hover:text-white hover:border-[#3a3a45] transition-colors">help</button>
+      <button type="button" data-cmd="projects" class="px-3.5 py-1.5 rounded-lg border border-line bg-surface font-mono text-[12px] text-muted hover:text-white hover:border-[#3a3a45] transition-colors">projects</button>
+      <button type="button" data-cmd="skills"   class="px-3.5 py-1.5 rounded-lg border border-line bg-surface font-mono text-[12px] text-muted hover:text-white hover:border-[#3a3a45] transition-colors">skills</button>
+      <button type="button" data-cmd="security" class="px-3.5 py-1.5 rounded-lg border border-line bg-surface font-mono text-[12px] text-muted hover:text-white hover:border-[#3a3a45] transition-colors">security</button>
+      <button type="button" data-cmd="contact"  class="px-3.5 py-1.5 rounded-lg border border-line bg-surface font-mono text-[12px] text-muted hover:text-white hover:border-[#3a3a45] transition-colors">contact</button>
+      <button type="button" data-cmd="clear"    class="px-3.5 py-1.5 rounded-lg border border-line bg-surface font-mono text-[12px] text-[#f87171] hover:border-[#7f1d1d] transition-colors">clear</button>
     </div>
   </div>
 </section>
 
-<!-- ============ AD SLOT 3 — Before Skills (Leaderboard 728x90) ============ -->
-<div class="max-w-[1600px] mx-auto px-4 sm:px-8">
+<!-- AD SLOT 3 -->
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6">
   <div class="ad-slot" data-size="728 x 90">
-    <div class="ad-slot-inner">
-      <!-- ADSTERRA-3: PASTE YOUR 728x90 LEADERBOARD AD CODE HERE -->
-    </div>
+    <!-- ADSTERRA-3: Paste your 728x90 ad code here -->
   </div>
 </div>
 
 <!-- ============================================================
      SKILLS
      ============================================================ -->
-<section id="arsenal" class="relative py-32 sm:py-44 px-4 sm:px-8">
-  <div class="max-w-[1600px] mx-auto">
+<section id="arsenal" class="relative py-24 sm:py-32 px-4 sm:px-6">
+  <div class="max-w-[1400px] mx-auto">
 
-    <div class="mb-24 max-w-4xl">
-      <div class="font-mono text-[12px] tracking-[0.5em] text-gold/85 mb-6" data-i18n="skills.tag">// 03 — ARSENAL</div>
-      <h2 class="font-lux font-black text-5xl sm:text-7xl xl:text-8xl text-cream tracking-tight leading-[1.0]">
-        <span data-i18n="skills.title1">Core</span> <span class="grad-gold italic" data-i18n="skills.title2">Capabilities</span>
+    <div class="mb-14 max-w-2xl">
+      <div class="text-[12.5px] tracking-[0.2em] text-muted uppercase mb-4" data-i18n="skills.tag">03 — Arsenal</div>
+      <h2 class="font-extrabold text-[2.25rem] sm:text-[3.25rem] text-white tracking-[-0.03em]">
+        <span data-i18n="skills.title1">Core</span> <span class="text-muted" data-i18n="skills.title2">Capabilities</span>
       </h2>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-x-24 gap-y-12">
-      <div class="space-y-10">
+    <div class="grid md:grid-cols-2 gap-x-16 gap-y-8">
+      <div class="space-y-7">
         <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="font-mono text-[15px] text-cream/90">HTML5 / Semantic Markup</span>
-            <span class="font-lux font-bold text-[17px] text-gold">98%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[14.5px] text-white">HTML5 / Semantic Markup</span>
+            <span class="font-mono text-[13px] text-muted">98%</span>
           </div>
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div class="h-full rounded-full" style="width:98%;background:linear-gradient(90deg,#f5d47f,#e8b84b,#ff7a1a);box-shadow:0 0 22px rgba(232,184,75,.9);"></div>
+          <div class="h-1.5 rounded-full bg-line overflow-hidden">
+            <div class="h-full rounded-full bg-white" style="width:98%"></div>
           </div>
         </div>
         <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="font-mono text-[15px] text-cream/90">CSS3 / Tailwind CSS</span>
-            <span class="font-lux font-bold text-[17px] text-gold">96%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[14.5px] text-white">CSS3 / Tailwind CSS</span>
+            <span class="font-mono text-[13px] text-muted">96%</span>
           </div>
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div class="h-full rounded-full" style="width:96%;background:linear-gradient(90deg,#f5d47f,#e8b84b,#ff7a1a);box-shadow:0 0 22px rgba(232,184,75,.9);"></div>
+          <div class="h-1.5 rounded-full bg-line overflow-hidden">
+            <div class="h-full rounded-full bg-white" style="width:96%"></div>
           </div>
         </div>
         <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="font-mono text-[15px] text-cream/90">JavaScript ES6+</span>
-            <span class="font-lux font-bold text-[17px] text-gold">94%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[14.5px] text-white">JavaScript ES6+</span>
+            <span class="font-mono text-[13px] text-muted">94%</span>
           </div>
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div class="h-full rounded-full" style="width:94%;background:linear-gradient(90deg,#f5d47f,#e8b84b,#ff7a1a);box-shadow:0 0 22px rgba(232,184,75,.9);"></div>
+          <div class="h-1.5 rounded-full bg-line overflow-hidden">
+            <div class="h-full rounded-full bg-white" style="width:94%"></div>
           </div>
         </div>
       </div>
-      <div class="space-y-10">
+      <div class="space-y-7">
         <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="font-mono text-[15px] text-cream/90">React / Vite</span>
-            <span class="font-lux font-bold text-[17px] text-gold">88%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[14.5px] text-white">React / Vite</span>
+            <span class="font-mono text-[13px] text-muted">88%</span>
           </div>
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div class="h-full rounded-full" style="width:88%;background:linear-gradient(90deg,#f5d47f,#e8b84b,#ff7a1a);box-shadow:0 0 22px rgba(232,184,75,.9);"></div>
+          <div class="h-1.5 rounded-full bg-line overflow-hidden">
+            <div class="h-full rounded-full bg-white" style="width:88%"></div>
           </div>
         </div>
         <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="font-mono text-[15px] text-cream/90">UI/UX & Design Systems</span>
-            <span class="font-lux font-bold text-[17px] text-gold">90%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[14.5px] text-white">UI / UX & Design Systems</span>
+            <span class="font-mono text-[13px] text-muted">90%</span>
           </div>
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div class="h-full rounded-full" style="width:90%;background:linear-gradient(90deg,#f5d47f,#e8b84b,#ff7a1a);box-shadow:0 0 22px rgba(232,184,75,.9);"></div>
+          <div class="h-1.5 rounded-full bg-line overflow-hidden">
+            <div class="h-full rounded-full bg-white" style="width:90%"></div>
           </div>
         </div>
         <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="font-mono text-[15px] text-cream/90">Web Security / CSP</span>
-            <span class="font-lux font-bold text-[17px] text-gold">85%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[14.5px] text-white">Web Security / CSP</span>
+            <span class="font-mono text-[13px] text-muted">85%</span>
           </div>
-          <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-            <div class="h-full rounded-full" style="width:85%;background:linear-gradient(90deg,#f5d47f,#e8b84b,#ff7a1a);box-shadow:0 0 22px rgba(232,184,75,.9);"></div>
+          <div class="h-1.5 rounded-full bg-line overflow-hidden">
+            <div class="h-full rounded-full bg-white" style="width:85%"></div>
           </div>
         </div>
       </div>
@@ -834,12 +565,10 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============ AD SLOT 4 — After Skills (300x250) ============ -->
-<div class="max-w-[1600px] mx-auto px-4 sm:px-8">
-  <div class="ad-slot" data-size="300 x 250" style="max-width:340px;">
-    <div class="ad-slot-inner">
-      <!-- ADSTERRA-4: PASTE YOUR 300x250 MEDIUM RECTANGLE AD CODE HERE -->
-    </div>
+<!-- AD SLOT 4 -->
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+  <div class="ad-slot" data-size="300 x 250" style="max-width:320px;">
+    <!-- ADSTERRA-4: Paste your 300x250 ad code here -->
   </div>
 </div>
 
@@ -848,266 +577,251 @@ tailwind.config = {
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer id="contact" class="relative border-t border-gold/20 bg-night/70 backdrop-blur-md pt-28 pb-14 px-4 sm:px-8 mt-12">
-  <div class="max-w-[1600px] mx-auto">
+<footer id="contact" class="relative border-t border-line pt-20 pb-12 px-4 sm:px-6 mt-10">
+  <div class="max-w-[1400px] mx-auto">
 
-    <!-- ============ AD SLOT 5 — Top of footer (320x50 mobile banner) ============ -->
-    <div class="ad-slot" data-size="320 x 50" style="max-width:360px;">
-      <div class="ad-slot-inner">
-        <!-- ADSTERRA-5: PASTE YOUR 320x50 MOBILE BANNER AD CODE HERE -->
-      </div>
+    <!-- AD SLOT 5 -->
+    <div class="ad-slot" data-size="320 x 50" style="max-width:340px;">
+      <!-- ADSTERRA-5: Paste your 320x50 ad code here -->
     </div>
 
-    <div class="grid lg:grid-cols-[1.2fr_1fr] gap-20 mb-24">
+    <div class="grid lg:grid-cols-[1.3fr_1fr] gap-16 mb-16">
       <div>
-        <div class="font-mono text-[12px] tracking-[0.5em] text-gold/85 mb-6" data-i18n="contact.tag">// 04 — ESTABLISH CONNECTION</div>
-        <h2 class="font-lux font-black text-5xl sm:text-7xl xl:text-8xl text-cream tracking-tight leading-[1.0] mb-9">
+        <div class="text-[12.5px] tracking-[0.2em] text-muted uppercase mb-4" data-i18n="contact.tag">04 — Establish Connection</div>
+        <h2 class="font-extrabold text-[2.25rem] sm:text-[3.25rem] text-white tracking-[-0.03em] leading-[1.05] mb-6">
           <span data-i18n="contact.title1">Let's build</span><br />
-          <span class="grad-gold italic" data-i18n="contact.title2">something secure.</span>
+          <span class="text-muted" data-i18n="contact.title2">something secure.</span>
         </h2>
-        <p class="max-w-xl text-cream/70 leading-relaxed mb-12 font-light text-[17px] sm:text-[18px]" data-i18n="contact.desc">
+        <p class="max-w-lg text-muted leading-relaxed mb-9 text-[16px]" data-i18n="contact.desc">
           Available for freelance missions, product builds and frontend architecture consulting. Response time: under 24 hours.
         </p>
 
-        <div class="flex flex-wrap gap-5">
+        <div class="flex flex-wrap gap-3">
           <a href="https://github.com/lamin-16" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-mono text-[15px] font-semibold text-night transition-transform duration-300 hover:scale-[1.03] shadow-[0_0_50px_rgba(232,184,75,.6)]"
-             style="background:linear-gradient(120deg,#f5d47f,#e8b84b,#ff7a1a);">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.3 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.3.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
-            GITHUB
+             class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-white text-ink font-semibold text-[14.5px] hover:bg-accent transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.3 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.3.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+            GitHub
           </a>
           <a href="#projects"
-             class="inline-flex items-center gap-3 px-10 py-5 rounded-2xl border border-gold/50 text-gold font-mono text-[15px] hover:bg-gold/10 transition-all duration-300">
-            <span data-i18n="contact.btn2">REVIEW SYSTEMS</span>
+             class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl border border-line text-white font-medium text-[14.5px] hover:border-[#3a3a45] hover:bg-surface transition-colors">
+            <span data-i18n="contact.btn2">View Systems</span>
           </a>
         </div>
       </div>
 
-      <div class="glass rounded-3xl p-8 h-fit glass-gold">
-        <div class="flex items-center justify-between mb-8">
-          <span class="font-mono text-[12px] tracking-[0.28em] text-cream/55">SECURITY_STATUS</span>
-          <span class="flex items-center gap-2.5 font-mono text-[11px] text-gold">
-            <span class="pulse-dot"></span>
-            <span data-i18n="footer.nominal">NOMINAL</span>
+      <div class="panel p-6 h-fit">
+        <div class="flex items-center justify-between mb-6">
+          <span class="text-[11px] tracking-[0.2em] text-muted uppercase">Security Status</span>
+          <span class="flex items-center gap-2 font-mono text-[11px] text-success">
+            <span class="dot"></span>
+            <span data-i18n="footer.nominal">Nominal</span>
           </span>
         </div>
-        <div class="space-y-5 font-mono text-[13.5px]">
-          <div class="flex items-center justify-between pb-4 border-b border-gold/10">
-            <span class="text-cream/60" data-i18n="footer.transport">Transport Layer</span>
-            <span class="text-gold">TLS 1.3</span>
+        <div class="space-y-4 text-[13px]">
+          <div class="flex items-center justify-between pb-3 border-b border-line">
+            <span class="text-muted" data-i18n="footer.transport">Transport Layer</span>
+            <span class="font-mono text-white">TLS 1.3</span>
           </div>
-          <div class="flex items-center justify-between pb-4 border-b border-gold/10">
-            <span class="text-cream/60" data-i18n="footer.cipher">Cipher Suite</span>
-            <span class="text-gold">AES-256-GCM</span>
+          <div class="flex items-center justify-between pb-3 border-b border-line">
+            <span class="text-muted" data-i18n="footer.cipher">Cipher Suite</span>
+            <span class="font-mono text-white">AES-256-GCM</span>
           </div>
-          <div class="flex items-center justify-between pb-4 border-b border-gold/10">
-            <span class="text-cream/60" data-i18n="footer.csp">Content Policy</span>
-            <span class="text-gold">CSP ACTIVE</span>
+          <div class="flex items-center justify-between pb-3 border-b border-line">
+            <span class="text-muted" data-i18n="footer.csp">Content Policy</span>
+            <span class="font-mono text-white">CSP Active</span>
           </div>
-          <div class="flex items-center justify-between pb-4 border-b border-gold/10">
-            <span class="text-cream/60" data-i18n="footer.links">External Links</span>
-            <span class="text-gold">noopener</span>
+          <div class="flex items-center justify-between pb-3 border-b border-line">
+            <span class="text-muted" data-i18n="footer.links">External Links</span>
+            <span class="font-mono text-white">noopener</span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-cream/60" data-i18n="footer.threat">Threat Scan</span>
-            <span class="text-gold">0 THREATS</span>
+            <span class="text-muted" data-i18n="footer.threat">Threat Scan</span>
+            <span class="font-mono text-success">0 Threats</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ============ AD SLOT 6 — Bottom of footer (728x90) ============ -->
+    <!-- AD SLOT 6 -->
     <div class="ad-slot" data-size="728 x 90">
-      <div class="ad-slot-inner">
-        <!-- ADSTERRA-6: PASTE YOUR 728x90 LEADERBOARD AD CODE HERE -->
-      </div>
+      <!-- ADSTERRA-6: Paste your 728x90 ad code here -->
     </div>
 
-    <div class="pt-12 border-t border-gold/10 flex flex-col sm:flex-row items-center justify-between gap-7">
-      <div class="flex items-center gap-4">
-        <span class="grid place-items-center w-11 h-11 rounded-2xl border border-gold/60 bg-gold/5 font-lux font-black text-gold text-base">L</span>
-        <span class="font-mono text-[12px] text-cream/55">
-          © <span id="year">2025</span> LAMIN.DEV — <span data-i18n="footer.rights">ALL RIGHTS RESERVED</span>
-        </span>
+    <div class="pt-10 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <span class="grid place-items-center w-8 h-8 rounded-lg bg-white text-ink font-bold text-xs">L</span>
+        <span class="text-[12px] text-muted">© <span id="year">2025</span> LAMIN.DEV — <span data-i18n="footer.rights">All rights reserved</span></span>
       </div>
 
-      <div class="flex items-center gap-3 px-5 py-3 rounded-full border border-gold/35 bg-gold/5 font-mono text-[11px] tracking-[0.18em] text-gold">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-        <span data-i18n="footer.secure">SECURE · SSL 256-BIT</span>
+      <div class="flex items-center gap-2 px-3.5 py-2 rounded-full border border-line text-[11px] text-muted">
+        <svg class="w-3.5 h-3.5 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <span data-i18n="footer.secure">Secure · SSL 256-bit</span>
       </div>
 
-      <div class="font-mono text-[12px] text-cream/45">
-        <span data-i18n="footer.built">BUILT WITH</span> <span class="text-gold">◆</span> <span data-i18n="footer.precision">PRECISION</span>
+      <div class="text-[12px] text-muted">
+        <span data-i18n="footer.built">Built with</span> <span class="text-accent">◆</span> <span data-i18n="footer.precision">precision</span>
       </div>
     </div>
   </div>
 </footer>
 
 <script>
-/* =========================================================
-   TRANSLATIONS
-   ========================================================= */
+/* ========== TRANSLATIONS ========== */
 const T = {
   en:{
-    'nav.home':'./home','nav.projects':'./projects','nav.terminal':'./terminal','nav.skills':'./skills','nav.contact':'./contact',
-    'hero.badge':'SYSTEM ONLINE — ACCEPTING NEW MISSIONS','hero.greeting':'> IDENTITY_CONFIRMED',
-    'hero.title1':'FULL-STACK','hero.title2':'Frontend Architect',
-    'hero.desc':'I engineer defense-grade interfaces and high-performance web systems — blending pixel-obsessed design with hardened, production-ready architecture. Six live applications deployed. Zero compromises.',
-    'hero.btn1':'EXPLORE SYSTEMS','hero.btn2':'OPEN TERMINAL',
-    'hero.f1':'SSL 256-BIT','hero.f2':'CSP HARDENED','hero.f3':'EDGE-DEPLOYED',
-    'hero.tagline':'Multi-language • Defense-grade • Edge-deployed',
-    'hero.s1':'APPS LIVE','hero.s2':'LANGUAGES','hero.s3':'ENCRYPT',
-    'projects.tag':'// 01 — DEPLOYED SYSTEMS','projects.title1':'Live','projects.title2':'Applications',
+    'nav.home':'Home','nav.projects':'Projects','nav.terminal':'Terminal','nav.skills':'Skills','nav.contact':'Contact',
+    'hero.badge':'Available for new projects','hero.title1':'Full-Stack','hero.title2':'Frontend Architect',
+    'hero.desc':'I engineer defense-grade interfaces and high-performance web systems — blending clean design with hardened, production-ready architecture. Six live applications deployed. Zero compromises.',
+    'hero.btn1':'View Projects','hero.btn2':'Open Terminal',
+    'hero.f1':'SSL 256-bit encrypted','hero.f2':'CSP hardened','hero.f3':'Edge-deployed',
+    'hero.tagline':'Multi-language · Secure · Edge-deployed',
+    'hero.s1':'Apps Live','hero.s2':'Languages','hero.s3':'Bit Encrypt',
+    'projects.tag':'01 — Deployed Systems','projects.title1':'Live','projects.title2':'Applications',
     'projects.desc':'Six production systems, all deployed and battle-tested on the edge. Every build ships with hardened external links, optimized payloads and responsive layouts.',
-    'common.launch':'LAUNCH LIVE APP','common.live':'LIVE',
+    'common.launch':'Launch Live App','common.live':'LIVE',
     'p1.name':'Lebenslauf Lamin','p1.desc':'Precision résumé builder with live A4 preview, instant PDF export and ATS-optimized typography.',
     'p2.name':'Auracore','p2.desc':'Immersive aura-energy experience driven by kinetic visuals and GPU-friendly animation layers.',
     'p3.name':'Lamin Lerne Deutsch','p3.desc':'Gamified German learning platform with A1–B2 modules and spaced-repetition quizzes.',
     'p4.name':'Lebenslauf Erstellen','p4.desc':'Zero-friction CV generator — pick a template, fill the fields, export a print-perfect PDF.',
     'p5.name':'Toolbox World','p5.desc':'All-in-one utility hub bundling converters, encoders and developer micro-tools.',
     'p6.name':'Steel Front Game','p6.desc':'Browser-native armored warfare with fixed-timestep loop, particle FX and military HUD.',
-    'terminal.tag':'// 02 — COMMAND CENTER','terminal.title1':'Interactive','terminal.title2':'Terminal',
-    'terminal.desc':'Type a command and hit ENTER. Start with help.','terminal.enc':'ENCRYPTED SESSION','terminal.quick':'QUICK:',
-    'skills.tag':'// 03 — ARSENAL','skills.title1':'Core','skills.title2':'Capabilities',
-    'contact.tag':'// 04 — ESTABLISH CONNECTION','contact.title1':"Let's build",'contact.title2':'something secure.',
+    'terminal.tag':'02 — Command Center','terminal.title1':'Interactive','terminal.title2':'Terminal',
+    'terminal.desc':'Type a command and press Enter. Start with help.','terminal.enc':'Encrypted session','terminal.quick':'Quick:',
+    'skills.tag':'03 — Arsenal','skills.title1':'Core','skills.title2':'Capabilities',
+    'contact.tag':'04 — Establish Connection','contact.title1':"Let's build",'contact.title2':'something secure.',
     'contact.desc':'Available for freelance missions, product builds and frontend architecture consulting. Response time: under 24 hours.',
-    'contact.btn2':'REVIEW SYSTEMS',
+    'contact.btn2':'View Systems',
     'footer.transport':'Transport Layer','footer.cipher':'Cipher Suite','footer.csp':'Content Policy',
-    'footer.links':'External Links','footer.threat':'Threat Scan','footer.nominal':'NOMINAL',
-    'footer.rights':'ALL RIGHTS RESERVED','footer.secure':'SECURE · SSL 256-BIT','footer.built':'BUILT WITH','footer.precision':'PRECISION',
-    'cli.welcome':'Type <span class="text-amber">help</span> to list commands, or <span class="text-amber">projects</span> for systems.',
+    'footer.links':'External Links','footer.threat':'Threat Scan','footer.nominal':'Nominal',
+    'footer.rights':'All rights reserved','footer.secure':'Secure · SSL 256-bit','footer.built':'Built with','footer.precision':'precision',
+    'cli.welcome':'Type <span class="text-accent">help</span> to list commands, or <span class="text-accent">projects</span> for systems.',
     'cli.ready':'secure shell initialized'
   },
   de:{
-    'nav.home':'./start','nav.projects':'./projekte','nav.terminal':'./terminal','nav.skills':'./fähigkeiten','nav.contact':'./kontakt',
-    'hero.badge':'SYSTEM ONLINE — NEUE MISSIONEN WILLKOMMEN','hero.greeting':'> IDENTITÄT_BESTÄTIGT',
-    'hero.title1':'FULL-STACK','hero.title2':'Frontend-Architekt',
-    'hero.desc':'Ich entwickle verteidigungsfähige Interfaces und hochperformante Websysteme — pixelgenaues Design trifft auf gehärtete Architektur. Sechs Live-Anwendungen. Keine Kompromisse.',
-    'hero.btn1':'SYSTEME ENTDECKEN','hero.btn2':'TERMINAL ÖFFNEN',
-    'hero.f1':'SSL 256-BIT','hero.f2':'CSP GEHÄRTET','hero.f3':'EDGE-BEREITSTELLUNG',
-    'hero.tagline':'Mehrsprachig • Verteidigungsfähig • Edge-Bereitstellung',
-    'hero.s1':'APPS LIVE','hero.s2':'SPRACHEN','hero.s3':'VERSCHLÜSSELT',
-    'projects.tag':'// 01 — EINGESETZTE SYSTEME','projects.title1':'Live','projects.title2':'Anwendungen',
+    'nav.home':'Start','nav.projects':'Projekte','nav.terminal':'Terminal','nav.skills':'Fähigkeiten','nav.contact':'Kontakt',
+    'hero.badge':'Verfügbar für neue Projekte','hero.title1':'Full-Stack','hero.title2':'Frontend-Architekt',
+    'hero.desc':'Ich entwickle verteidigungsfähige Interfaces und hochperformante Websysteme — sauberes Design trifft auf gehärtete Architektur. Sechs Live-Anwendungen. Keine Kompromisse.',
+    'hero.btn1':'Projekte ansehen','hero.btn2':'Terminal öffnen',
+    'hero.f1':'SSL 256-Bit verschlüsselt','hero.f2':'CSP gehärtet','hero.f3':'Edge-Bereitstellung',
+    'hero.tagline':'Mehrsprachig · Sicher · Edge-Bereitstellung',
+    'hero.s1':'Apps Live','hero.s2':'Sprachen','hero.s3':'Bit-Verschlüsselung',
+    'projects.tag':'01 — Eingesetzte Systeme','projects.title1':'Live','projects.title2':'Anwendungen',
     'projects.desc':'Sechs Produktionssysteme, alle am Edge bereitgestellt. Jeder Build mit gehärteten Links, optimierten Daten und responsive Layouts.',
-    'common.launch':'LIVE-APP STARTEN','common.live':'LIVE',
+    'common.launch':'Live-App starten','common.live':'LIVE',
     'p1.name':'Lebenslauf Lamin','p1.desc':'Präziser Lebenslauf-Generator mit A4-Vorschau, PDF-Export und ATS-Optimierung.',
     'p2.name':'Auracore','p2.desc':'Immersive Aura-Erfahrung mit kinetischen Visuals und GPU-Animationen.',
     'p3.name':'Lamin Lerne Deutsch','p3.desc':'Gamifizierte Deutsch-Lernplattform mit A1–B2 und Wiederholungsquizzen.',
     'p4.name':'Lebenslauf Erstellen','p4.desc':'Reibungsloser Lebenslauf-Generator — Vorlage wählen, ausfüllen, PDF exportieren.',
     'p5.name':'Toolbox World','p5.desc':'All-in-One-Werkzeugkasten mit Konvertern und Entwickler-Tools.',
     'p6.name':'Steel Front Game','p6.desc':'Panzerkriegsspiel im Browser mit Fixed-Timestep und militärischem HUD.',
-    'terminal.tag':'// 02 — KOMMANDOZENTRALE','terminal.title1':'Interaktives','terminal.title2':'Terminal',
-    'terminal.desc':'Befehl eingeben und ENTER drücken. Beginnen Sie mit help.','terminal.enc':'VERSCHLÜSSELTE SITZUNG','terminal.quick':'SCHNELL:',
-    'skills.tag':'// 03 — ARSENAL','skills.title1':'Kern','skills.title2':'Fähigkeiten',
-    'contact.tag':'// 04 — VERBINDUNG','contact.title1':'Lass uns','contact.title2':'Sicheres bauen.',
+    'terminal.tag':'02 — Kommandozentrale','terminal.title1':'Interaktives','terminal.title2':'Terminal',
+    'terminal.desc':'Befehl eingeben und Enter drücken. Beginnen Sie mit help.','terminal.enc':'Verschlüsselte Sitzung','terminal.quick':'Schnell:',
+    'skills.tag':'03 — Arsenal','skills.title1':'Kern','skills.title2':'Fähigkeiten',
+    'contact.tag':'04 — Verbindung','contact.title1':'Lass uns','contact.title2':'Sicheres bauen.',
     'contact.desc':'Verfügbar für Freelance, Produktentwicklung und Frontend-Architektur-Beratung. Antwortzeit: unter 24 Stunden.',
-    'contact.btn2':'SYSTEME PRÜFEN',
+    'contact.btn2':'Systeme prüfen',
     'footer.transport':'Transportschicht','footer.cipher':'Verschlüsselung','footer.csp':'Inhaltsrichtlinie',
-    'footer.links':'Externe Links','footer.threat':'Bedrohungsscan','footer.nominal':'NOMINAL',
-    'footer.rights':'ALLE RECHTE VORBEHALTEN','footer.secure':'SICHER · SSL 256-BIT','footer.built':'GEBAUT MIT','footer.precision':'PRÄZISION',
-    'cli.welcome':'Geben Sie <span class="text-amber">help</span> ein für Befehle oder <span class="text-amber">projects</span> für Systeme.',
+    'footer.links':'Externe Links','footer.threat':'Bedrohungsscan','footer.nominal':'Nominal',
+    'footer.rights':'Alle Rechte vorbehalten','footer.secure':'Sicher · SSL 256-Bit','footer.built':'Gebaut mit','footer.precision':'Präzision',
+    'cli.welcome':'Geben Sie <span class="text-accent">help</span> ein für Befehle oder <span class="text-accent">projects</span> für Systeme.',
     'cli.ready':'sichere Shell initialisiert'
   },
   ru:{
-    'nav.home':'./главная','nav.projects':'./проекты','nav.terminal':'./терминал','nav.skills':'./навыки','nav.contact':'./контакт',
-    'hero.badge':'СИСТЕМА В СЕТИ — ПРИНИМАЕМ МИССИИ','hero.greeting':'> ЛИЧНОСТЬ_ПОДТВЕРЖДЕНА',
-    'hero.title1':'FULL-STACK','hero.title2':'Фронтенд-архитектор',
-    'hero.desc':'Я создаю защищённые интерфейсы и высокопроизводительные системы — безупречный дизайн с укреплённой архитектурой. Шесть приложений в сети. Без компромиссов.',
-    'hero.btn1':'ИЗУЧИТЬ СИСТЕМЫ','hero.btn2':'ОТКРЫТЬ ТЕРМИНАЛ',
-    'hero.f1':'SSL 256-BIT','hero.f2':'CSP УКРЕПЛЁН','hero.f3':'EDGE-РАЗВЁРТЫВАНИЕ',
-    'hero.tagline':'Многоязычный • Защищённый • Edge-развёрнутый',
-    'hero.s1':'ПРИЛОЖЕНИЙ','hero.s2':'ЯЗЫКОВ','hero.s3':'ШИФРОВАНИЕ',
-    'projects.tag':'// 01 — РАЗВЁРНУТЫЕ СИСТЕМЫ','projects.title1':'Живые','projects.title2':'Приложения',
+    'nav.home':'Главная','nav.projects':'Проекты','nav.terminal':'Терминал','nav.skills':'Навыки','nav.contact':'Контакт',
+    'hero.badge':'Открыт для новых проектов','hero.title1':'Full-Stack','hero.title2':'Фронтенд-архитектор',
+    'hero.desc':'Я создаю защищённые интерфейсы и высокопроизводительные системы — чистый дизайн с укреплённой архитектурой. Шесть приложений в сети. Без компромиссов.',
+    'hero.btn1':'Смотреть проекты','hero.btn2':'Открыть терминал',
+    'hero.f1':'SSL 256-бит шифрование','hero.f2':'CSP укреплён','hero.f3':'Edge-развёртывание',
+    'hero.tagline':'Многоязычный · Защищённый · Edge-развёртывание',
+    'hero.s1':'Приложений','hero.s2':'Языков','hero.s3':'Бит шифрование',
+    'projects.tag':'01 — Развёрнутые системы','projects.title1':'Живые','projects.title2':'Приложения',
     'projects.desc':'Шесть рабочих систем на периферии. Каждая сборка — с укреплёнными ссылками, оптимизацией и адаптивом.',
-    'common.launch':'ОТКРЫТЬ ПРИЛОЖЕНИЕ','common.live':'В СЕТИ',
+    'common.launch':'Открыть приложение','common.live':'В СЕТИ',
     'p1.name':'Lebenslauf Lamin','p1.desc':'Точный конструктор резюме с предпросмотром A4, PDF и ATS-оптимизацией.',
     'p2.name':'Auracore','p2.desc':'Погружающий опыт энергии ауры с кинетикой и GPU-анимацией.',
     'p3.name':'Lamin Lerne Deutsch','p3.desc':'Игровая платформа для немецкого: модули A1–B2 и интервальные повторения.',
     'p4.name':'Lebenslauf Erstellen','p4.desc':'Простой генератор резюме — шаблон, поля, идеальный PDF.',
     'p5.name':'Toolbox World','p5.desc':'Универсальный набор конвертеров, кодировщиков и микросервисов.',
     'p6.name':'Steel Front Game','p6.desc':'Браузерная игра о бронетанковых боях с частицами и военным HUD.',
-    'terminal.tag':'// 02 — КОМАНДНЫЙ ЦЕНТР','terminal.title1':'Интерактивный','terminal.title2':'Терминал',
-    'terminal.desc':'Введите команду и нажмите ENTER. Начните с help.','terminal.enc':'ЗАШИФРОВАННАЯ СЕССИЯ','terminal.quick':'БЫСТРО:',
-    'skills.tag':'// 03 — АРСЕНАЛ','skills.title1':'Ключевые','skills.title2':'Навыки',
-    'contact.tag':'// 04 — УСТАНОВИТЬ СВЯЗЬ','contact.title1':'Давай создадим','contact.title2':'что-то надёжное.',
-    'contact.desc':'Доступен для фриланса, разработки и консультаций по фронтенд-архитектуре. Ответ в течение 24 часов.',
-    'contact.btn2':'ОБЗОР СИСТЕМ',
+    'terminal.tag':'02 — Командный центр','terminal.title1':'Интерактивный','terminal.title2':'Терминал',
+    'terminal.desc':'Введите команду и нажмите Enter. Начните с help.','terminal.enc':'Зашифрованная сессия','terminal.quick':'Быстро:',
+    'skills.tag':'03 — Арсенал','skills.title1':'Ключевые','skills.title2':'Навыки',
+    'contact.tag':'04 — Установить связь','contact.title1':'Давай создадим','contact.title2':'что-то надёжное.',
+    'contact.desc':'Доступен для фриланса, разработки и консультаций. Ответ в течение 24 часов.',
+    'contact.btn2':'Обзор систем',
     'footer.transport':'Транспорт','footer.cipher':'Шифр','footer.csp':'Политика контента',
-    'footer.links':'Внешние ссылки','footer.threat':'Сканирование','footer.nominal':'НОРМА',
-    'footer.rights':'ВСЕ ПРАВА ЗАЩИЩЕНЫ','footer.secure':'ЗАЩИЩЕНО · SSL 256-BIT','footer.built':'СОЗДАНО С','footer.precision':'ТОЧНОСТЬЮ',
-    'cli.welcome':'Введите <span class="text-amber">help</span> для команд или <span class="text-amber">projects</span> для систем.',
+    'footer.links':'Внешние ссылки','footer.threat':'Сканирование','footer.nominal':'Норма',
+    'footer.rights':'Все права защищены','footer.secure':'Защищено · SSL 256-бит','footer.built':'Создано с','footer.precision':'точностью',
+    'cli.welcome':'Введите <span class="text-accent">help</span> для команд или <span class="text-accent">projects</span> для систем.',
     'cli.ready':'защищённая оболочка инициализирована'
   },
   no:{
-    'nav.home':'./hjem','nav.projects':'./prosjekter','nav.terminal':'./terminal','nav.skills':'./ferdigheter','nav.contact':'./kontakt',
-    'hero.badge':'SYSTEMET ONLINE — MOTTAR OPPDRAG','hero.greeting':'> IDENTITET_BEKREFTET',
-    'hero.title1':'FULL-STACK','hero.title2':'Frontend-arkitekt',
-    'hero.desc':'Jeg bygger forsvarsklare grensesnitt og høyytelses web-systemer — pikselpresist design møter herdet arkitektur. Seks live-apper. Ingen kompromisser.',
-    'hero.btn1':'UTFORSK SYSTEMER','hero.btn2':'ÅPNE TERMINAL',
-    'hero.f1':'SSL 256-BIT','hero.f2':'CSP HERDET','hero.f3':'EDGE-DISTRIBUERT',
-    'hero.tagline':'Flerspråklig • Forsvarsklar • Edge-distribuert',
-    'hero.s1':'APPER LIVE','hero.s2':'SPRÅK','hero.s3':'KRYPTERING',
-    'projects.tag':'// 01 — DISTRIBUERTE SYSTEMER','projects.title1':'Live','projects.title2':'Applikasjoner',
+    'nav.home':'Hjem','nav.projects':'Prosjekter','nav.terminal':'Terminal','nav.skills':'Ferdigheter','nav.contact':'Kontakt',
+    'hero.badge':'Tilgjengelig for nye prosjekter','hero.title1':'Full-Stack','hero.title2':'Frontend-arkitekt',
+    'hero.desc':'Jeg bygger forsvarsklare grensesnitt og høyytelses web-systemer — rent design møter herdet arkitektur. Seks live-apper. Ingen kompromisser.',
+    'hero.btn1':'Se prosjekter','hero.btn2':'Åpne terminal',
+    'hero.f1':'SSL 256-bit kryptert','hero.f2':'CSP herdet','hero.f3':'Edge-distribuert',
+    'hero.tagline':'Flerspråklig · Sikker · Edge-distribuert',
+    'hero.s1':'Apper Live','hero.s2':'Språk','hero.s3':'Bit-kryptering',
+    'projects.tag':'01 — Distribuerte systemer','projects.title1':'Live','projects.title2':'Applikasjoner',
     'projects.desc':'Seks systemer, alle distribuert på edge. Hver build med herdede lenker, optimaliserte data og responsive layouter.',
-    'common.launch':'ÅPNE APP','common.live':'LIVE',
+    'common.launch':'Åpne app','common.live':'LIVE',
     'p1.name':'Lebenslauf Lamin','p1.desc':'Presis CV-bygger med live A4-forhåndsvisning, PDF-eksport og ATS-optimalisering.',
     'p2.name':'Auracore','p2.desc':'Fordypende aura-energi med kinetiske visualer og GPU-animasjoner.',
     'p3.name':'Lamin Lerne Deutsch','p3.desc':'Spillifisert tysk-plattform med A1–B2-moduler og repetisjonsquizer.',
     'p4.name':'Lebenslauf Erstellen','p4.desc':'Enkel CV-generator — velg mal, fyll feltene, eksporter perfekt PDF.',
     'p5.name':'Toolbox World','p5.desc':'Alt-i-ett verktøyhub med konvertere og utviklerverktøy.',
     'p6.name':'Steel Front Game','p6.desc':'Panserkrigspill i nettleser med fast tidssteg og militær HUD.',
-    'terminal.tag':'// 02 — KOMMANDOSENTER','terminal.title1':'Interaktiv','terminal.title2':'Terminal',
-    'terminal.desc':'Skriv en kommando og trykk ENTER. Start med help.','terminal.enc':'KRYPTERERT ØKT','terminal.quick':'RASK:',
-    'skills.tag':'// 03 — ARSENAL','skills.title1':'Kjerne','skills.title2':'Ferdigheter',
-    'contact.tag':'// 04 — FORBINDELSE','contact.title1':'La oss bygge','contact.title2':'noe sikkert.',
+    'terminal.tag':'02 — Kommandosenter','terminal.title1':'Interaktiv','terminal.title2':'Terminal',
+    'terminal.desc':'Skriv en kommando og trykk Enter. Start med help.','terminal.enc':'Kryptert økt','terminal.quick':'Rask:',
+    'skills.tag':'03 — Arsenal','skills.title1':'Kjerne','skills.title2':'Ferdigheter',
+    'contact.tag':'04 — Forbindelse','contact.title1':'La oss bygge','contact.title2':'noe sikkert.',
     'contact.desc':'Tilgjengelig for freelance, produktbygging og frontend-rådgivning. Svartid: under 24 timer.',
-    'contact.btn2':'SE SYSTEMER',
+    'contact.btn2':'Se systemer',
     'footer.transport':'Transportlag','footer.cipher':'Chiffer','footer.csp':'Innholdspolicy',
-    'footer.links':'Eksterne lenker','footer.threat':'Trusselskan','footer.nominal':'NOMINELL',
-    'footer.rights':'ALLE RETTIGHETER RESERVERT','footer.secure':'SIKKER · SSL 256-BIT','footer.built':'BYGGET MED','footer.precision':'PRESISJON',
-    'cli.welcome':'Skriv <span class="text-amber">help</span> for kommandoer eller <span class="text-amber">projects</span> for systemer.',
+    'footer.links':'Eksterne lenker','footer.threat':'Trusselskan','footer.nominal':'Nominell',
+    'footer.rights':'Alle rettigheter reservert','footer.secure':'Sikker · SSL 256-bit','footer.built':'Bygget med','footer.precision':'presisjon',
+    'cli.welcome':'Skriv <span class="text-accent">help</span> for kommandoer eller <span class="text-accent">projects</span> for systemer.',
     'cli.ready':'sikker shell initialisert'
   },
   el:{
-    'nav.home':'./αρχή','nav.projects':'./έργα','nav.terminal':'./τερματικό','nav.skills':'./δεξιότητες','nav.contact':'./επαφή',
-    'hero.badge':'ΣΥΣΤΗΜΑ ΣΕ ΛΕΙΤΟΥΡΓΙΑ — ΔΕΧΟΜΑΣΤΕ ΑΠΟΣΤΟΛΕΣ','hero.greeting':'> ΤΑΥΤΟΤΗΤΑ_ΕΠΙΒΕΒΑΙΩΘΗΚΕ',
-    'hero.title1':'FULL-STACK','hero.title2':'Αρχιτέκτονας Frontend',
-    'hero.desc':'Κατασκευάζω αμυντικά interfaces και υψηλών επιδόσεων web συστήματα — εμμονικός σχεδιασμός με ενισχυμένη αρχιτεκτονική. Έξι εφαρμογές. Μηδέν συμβιβασμοί.',
-    'hero.btn1':'ΕΞΕΡΕΥΝΗΣΗ ΣΥΣΤΗΜΑΤΩΝ','hero.btn2':'ΑΝΟΙΓΜΑ ΤΕΡΜΑΤΙΚΟΥ',
-    'hero.f1':'SSL 256-BIT','hero.f2':'CSP ΕΝΙΣΧΥΜΕΝΟ','hero.f3':'EDGE-ΑΝΑΠΤΥΞΗ',
-    'hero.tagline':'Πολυγλωσσικό • Αμυντικό • Edge-ανάπτυξη',
-    'hero.s1':'ΕΦΑΡΜΟΓΕΣ','hero.s2':'ΓΛΩΣΣΕΣ','hero.s3':'ΚΡΥΠΤΟΓΡΑΦΗΣΗ',
-    'projects.tag':'// 01 — ΑΝΑΠΤΥΓΜΕΝΑ ΣΥΣΤΗΜΑΤΑ','projects.title1':'Ζωντανές','projects.title2':'Εφαρμογές',
-    'projects.desc':'Έξι συστήματα παραγωγής στο edge. Κάθε build με ενισχυμένους συνδέσμους, βελτιστοποιημένα δεδομένα και responsive διατάξεις.',
-    'common.launch':'ΕΚΚΙΝΗΣΗ ΕΦΑΡΜΟΓΗΣ','common.live':'ΖΩΝΤΑΝΑ',
-    'p1.name':'Lebenslauf Lamin','p1.desc':'Ακριβής δημιουργός βιογραφικού με ζωντανή προεπισκόπηση A4 και PDF.',
+    'nav.home':'Αρχή','nav.projects':'Έργα','nav.terminal':'Τερματικό','nav.skills':'Δεξιότητες','nav.contact':'Επαφή',
+    'hero.badge':'Διαθέσιμος για νέα έργα','hero.title1':'Full-Stack','hero.title2':'Αρχιτέκτονας Frontend',
+    'hero.desc':'Κατασκευάζω αμυντικά interfaces και υψηλών επιδόσεων web συστήματα — καθαρός σχεδιασμός με ενισχυμένη αρχιτεκτονική. Έξι εφαρμογές. Μηδέν συμβιβασμοί.',
+    'hero.btn1':'Δείτε έργα','hero.btn2':'Άνοιγμα τερματικού',
+    'hero.f1':'SSL 256-bit κρυπτογράφηση','hero.f2':'CSP ενισχυμένο','hero.f3':'Edge-ανάπτυξη',
+    'hero.tagline':'Πολυγλωσσικό · Ασφαλές · Edge-ανάπτυξη',
+    'hero.s1':'Εφαρμογές','hero.s2':'Γλώσσες','hero.s3':'Bit Κρυπτογράφηση',
+    'projects.tag':'01 — Αναπτυγμένα συστήματα','projects.title1':'Ζωντανές','projects.title2':'Εφαρμογές',
+    'projects.desc':'Έξι συστήματα παραγωγής στο edge. Κάθε build με ενισχυμένους συνδέσμους και responsive διατάξεις.',
+    'common.launch':'Εκκίνηση εφαρμογής','common.live':'ΖΩΝΤΑΝΑ',
+    'p1.name':'Lebenslauf Lamin','p1.desc':'Ακριβής δημιουργός βιογραφικού με προεπισκόπηση A4 και PDF.',
     'p2.name':'Auracore','p2.desc':'Εμβυθιστική εμπειρία αύρας με κινητικά visuals και GPU animations.',
     'p3.name':'Lamin Lerne Deutsch','p3.desc':'Πλατφόρμα εκμάθησης γερμανικών με ενότητες A1–B2 και quiz.',
     'p4.name':'Lebenslauf Erstellen','p4.desc':'Απλός γεννήτορας βιογραφικού — πρότυπο, πεδία, τέλειο PDF.',
     'p5.name':'Toolbox World','p5.desc':'Ολοκληρωμένο κέντρο εργαλείων με μετατροπείς και micro-tools.',
     'p6.name':'Steel Front Game','p6.desc':'Παιχνίδι θωρακισμένου πολέμου με FX και στρατιωτικό HUD.',
-    'terminal.tag':'// 02 — ΚΕΝΤΡΟ ΕΝΤΟΛΩΝ','terminal.title1':'Διαδραστικό','terminal.title2':'Τερματικό',
-    'terminal.desc':'Πληκτρολογήστε εντολή και πατήστε ENTER. Ξεκινήστε με help.','terminal.enc':'ΚΡΥΠΤΟΓΡΑΦΗΜΕΝΗ ΣΥΝΕΔΡΙΑ','terminal.quick':'ΓΡΗΓΟΡΑ:',
-    'skills.tag':'// 03 — ΟΠΛΟΣΤΑΣΙΟ','skills.title1':'Βασικές','skills.title2':'Ικανότητες',
-    'contact.tag':'// 04 — ΣΥΝΔΕΣΗ','contact.title1':'Ας χτίσουμε','contact.title2':'κάτι ασφαλές.',
+    'terminal.tag':'02 — Κέντρο εντολών','terminal.title1':'Διαδραστικό','terminal.title2':'Τερματικό',
+    'terminal.desc':'Πληκτρολογήστε εντολή και πατήστε Enter. Ξεκινήστε με help.','terminal.enc':'Κρυπτογραφημένη συνεδρία','terminal.quick':'Γρήγορα:',
+    'skills.tag':'03 — Οπλοστάσιο','skills.title1':'Βασικές','skills.title2':'Ικανότητες',
+    'contact.tag':'04 — Σύνδεση','contact.title1':'Ας χτίσουμε','contact.title2':'κάτι ασφαλές.',
     'contact.desc':'Διαθέσιμος για freelance, ανάπτυξη προϊόντων και συμβουλευτική. Απάντηση εντός 24 ωρών.',
-    'contact.btn2':'ΑΞΙΟΛΟΓΗΣΗ ΣΥΣΤΗΜΑΤΩΝ',
+    'contact.btn2':'Δείτε συστήματα',
     'footer.transport':'Επίπεδο μεταφοράς','footer.cipher':'Κρυπτογράφηση','footer.csp':'Πολιτική περιεχομένου',
-    'footer.links':'Εξωτερικοί σύνδεσμοι','footer.threat':'Σάρωση απειλών','footer.nominal':'ΟΜΑΛΑ',
-    'footer.rights':'ΟΛΑ ΤΑ ΔΙΚΑΙΩΜΑΤΑ','footer.secure':'ΑΣΦΑΛΗΣ · SSL 256-BIT','footer.built':'ΚΑΤΑΣΚΕΥΑΣΜΕΝΟ ΜΕ','footer.precision':'ΑΚΡΙΒΕΙΑ',
-    'cli.welcome':'Πληκτρολογήστε <span class="text-amber">help</span> για εντολές ή <span class="text-amber">projects</span> για συστήματα.',
+    'footer.links':'Εξωτερικοί σύνδεσμοι','footer.threat':'Σάρωση απειλών','footer.nominal':'Ομαλά',
+    'footer.rights':'Όλα τα δικαιώματα','footer.secure':'Ασφαλής · SSL 256-bit','footer.built':'Κατασκευασμένο με','footer.precision':'ακρίβεια',
+    'cli.welcome':'Πληκτρολογήστε <span class="text-accent">help</span> για εντολές ή <span class="text-accent">projects</span> για συστήματα.',
     'cli.ready':'ασφαλές shell αρχικοποιήθηκε'
   },
   ar:{
-    'nav.home':'./الرئيسية','nav.projects':'./المشاريع','nav.terminal':'./الطرفية','nav.skills':'./المهارات','nav.contact':'./تواصل',
-    'hero.badge':'النظام متصل — نقبل مهام جديدة','hero.greeting':'> تم_تأكيد_الهوية',
-    'hero.title1':'مطوّر متكامل','hero.title2':'مهندس واجهات أمامية',
-    'hero.desc':'أصمم واجهات بأمان عسكري وأنظمة ويب فائقة الأداء — تصميم بدقة البكسل مع بنية مُحصّنة جاهزة للإنتاج. ستة تطبيقات مباشرة. بلا تنازلات.',
-    'hero.btn1':'استكشف الأنظمة','hero.btn2':'افتح الطرفية',
-    'hero.f1':'تشفير 256-بت','hero.f2':'سياسة حماية مُفعّلة','hero.f3':'نشر على الحافة',
-    'hero.tagline':'متعدد اللغات • بأمان عسكري • نشر حافي',
-    'hero.s1':'تطبيقات مباشرة','hero.s2':'لغات','hero.s3':'تشفير',
-    'projects.tag':'// ٠١ — أنظمة منشورة','projects.title1':'تطبيقات','projects.title2':'مباشرة',
+    'nav.home':'الرئيسية','nav.projects':'المشاريع','nav.terminal':'الطرفية','nav.skills':'المهارات','nav.contact':'تواصل',
+    'hero.badge':'متاح لمشاريع جديدة','hero.title1':'مطور متكامل','hero.title2':'مهندس واجهات أمامية',
+    'hero.desc':'أصمم واجهات آمنة وأنظمة ويب فائقة الأداء — تصميم نظيف مع بنية مُحصّنة جاهزة للإنتاج. ستة تطبيقات مباشرة. بلا تنازلات.',
+    'hero.btn1':'شاهد المشاريع','hero.btn2':'افتح الطرفية',
+    'hero.f1':'تشفير SSL 256-بت','hero.f2':'سياسة حماية مُفعّلة','hero.f3':'نشر على الحافة',
+    'hero.tagline':'متعدد اللغات · آمن · نشر حافي',
+    'hero.s1':'تطبيقات مباشرة','hero.s2':'لغات','hero.s3':'بت تشفير',
+    'projects.tag':'٠١ — أنظمة منشورة','projects.title1':'تطبيقات','projects.title2':'مباشرة',
     'projects.desc':'ستة أنظمة إنتاجية، كلها منشورة ومُختبرة على الحافة. كل بناء بروابط آمنة وأداء محسّن وتصميم متجاوب.',
     'common.launch':'تشغيل التطبيق','common.live':'مباشر',
     'p1.name':'Lebenslauf Lamin','p1.desc':'منشئ سيرة ذاتية دقيق مع معاينة مباشرة بحجم A4 وتصدير PDF بجودة عالية.',
@@ -1116,16 +830,16 @@ const T = {
     'p4.name':'Lebenslauf Erstellen','p4.desc':'منشئ سيرة ذاتية بلا تعقيد — قالب، حقول، PDF مثالي.',
     'p5.name':'Toolbox World','p5.desc':'مركز أدوات شامل يضم محولات ومشفّرات وأدوات مطورين.',
     'p6.name':'Steel Front Game','p6.desc':'لعبة حرب مدرعات في المتصفح بحلقة ثابتة ومؤثرات وواجهة عسكرية.',
-    'terminal.tag':'// ٠٢ — مركز القيادة','terminal.title1':'طرفية','terminal.title2':'تفاعلية',
+    'terminal.tag':'٠٢ — مركز القيادة','terminal.title1':'طرفية','terminal.title2':'تفاعلية',
     'terminal.desc':'اكتب أمراً واضغط Enter. ابدأ بـ help.','terminal.enc':'جلسة مشفرة','terminal.quick':'سريع:',
-    'skills.tag':'// ٠٣ — الترسانة','skills.title1':'القدرات','skills.title2':'الأساسية',
-    'contact.tag':'// ٠٤ — إنشاء اتصال','contact.title1':'لنبنِ','contact.title2':'شيئاً آمناً.',
+    'skills.tag':'٠٣ — الترسانة','skills.title1':'القدرات','skills.title2':'الأساسية',
+    'contact.tag':'٠٤ — إنشاء اتصال','contact.title1':'لنبنِ','contact.title2':'شيئاً آمناً.',
     'contact.desc':'متاح للمهام الحرة وبناء المنتجات واستشارات هندسة الواجهات. وقت الرد: أقل من ٢٤ ساعة.',
     'contact.btn2':'استعرض الأنظمة',
     'footer.transport':'طبقة النقل','footer.cipher':'التشفير','footer.csp':'سياسة المحتوى',
     'footer.links':'روابط خارجية','footer.threat':'فحص التهديدات','footer.nominal':'سليم',
     'footer.rights':'جميع الحقوق محفوظة','footer.secure':'آمن · SSL 256-بت','footer.built':'صُنع بـ','footer.precision':'دقة',
-    'cli.welcome':'اكتب <span class="text-amber">help</span> للأوامر، أو <span class="text-amber">projects</span> للأنظمة.',
+    'cli.welcome':'اكتب <span class="text-accent">help</span> للأوامر، أو <span class="text-accent">projects</span> للأنظمة.',
     'cli.ready':'تم تهيئة الطرفية الآمنة'
   }
 };
@@ -1135,39 +849,28 @@ const LANG_META = {
   no:{label:'NO',dir:'ltr'}, el:{label:'EL',dir:'ltr'}, ar:{label:'AR',dir:'rtl'}
 };
 
-/* =========================================================
-   PROJECTS with Pexels VIDEOS
-   ========================================================= */
+/* ========== PROJECTS — Static images, no videos ========== */
 const PROJECTS = [
   { key:'p1', url:'https://lebenslauf-lamin.vercel.app/',
-    video:'https://videos.pexels.com/video-files/3129671/3129671-hd_1920_1080_30fps.mp4',
-    poster:'https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img:'https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['JavaScript','Tailwind','PDF'] },
   { key:'p2', url:'https://auracore-coral.vercel.app/',
-    video:'https://videos.pexels.com/video-files/3130284/3130284-hd_1920_1080_30fps.mp4',
-    poster:'https://images.pexels.com/photos/2085831/pexels-photo-2085831.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img:'https://images.pexels.com/photos/2085831/pexels-photo-2085831.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['Canvas','CSS Anim','Vercel'] },
   { key:'p3', url:'https://lamind-lerne-deutsch.vercel.app/',
-    video:'https://videos.pexels.com/video-files/2611250/2611250-hd_1920_1080_30fps.mp4',
-    poster:'https://images.pexels.com/photos/267669/pexels-photo-267669.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img:'https://images.pexels.com/photos/267669/pexels-photo-267669.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['Vanilla JS','LocalStorage','Speech'] },
   { key:'p4', url:'https://lebenslauf-erstellen-kostenlos.vercel.app/',
-    video:'https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4',
-    poster:'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img:'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['HTML5','Tailwind','Print CSS'] },
   { key:'p5', url:'https://toolbox-world.vercel.app/',
-    video:'https://videos.pexels.com/video-files/4763824/4763824-hd_1920_1080_25fps.mp4',
-    poster:'https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img:'https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['Vanilla JS','Web Crypto','PWA'] },
   { key:'p6', url:'https://steel-front-game.vercel.app/',
-    video:'https://videos.pexels.com/video-files/5473748/5473748-hd_1920_1080_25fps.mp4',
-    poster:'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&cs=tinysrgb&w=800',
+    img:'https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags:['Canvas 2D','Game Loop','Web Audio'] }
 ];
 
-/* =========================================================
-   LANGUAGE
-   ========================================================= */
 let currentLang = localStorage.getItem('lamin-lang') || 'en';
 function t(k){ return (T[currentLang] && T[currentLang][k]) || T.en[k] || k; }
 
@@ -1178,86 +881,51 @@ function applyLanguage(lang){
   document.documentElement.lang = lang;
   document.documentElement.dir = meta.dir;
   document.getElementById('langLabel').textContent = meta.label;
-
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const k = el.getAttribute('data-i18n');
     const v = t(k);
     if (v) el.textContent = v;
   });
-
-  document.querySelectorAll('.lang-btn').forEach(b=> b.classList.toggle('active', b.dataset.lang === lang));
   renderProjects();
   updateTypingPhrases();
 }
 
-/* =========================================================
-   RENDER PROJECTS
-   ========================================================= */
 function renderProjects(){
   const grid = document.getElementById('projectsGrid');
   if (!grid) return;
   grid.innerHTML = PROJECTS.map((p,i)=>`
-    <article class="lux-card glass rounded-3xl overflow-hidden">
-      <div class="spot"></div>
-      <div class="proj-media aspect-[16/10]">
-        <video autoplay muted loop playsinline preload="metadata" poster="${p.poster}">
-          <source src="${p.video}" type="video/mp4" />
-        </video>
-        <div class="absolute top-0 inset-x-0 h-10 flex items-center gap-2 px-4 border-b border-white/10 bg-black/55 z-10">
-          <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-gold/80"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-amber/80"></span>
-          <span class="ms-auto font-mono text-[10px] tracking-widest text-gold/90">${String(i+1).padStart(2,'0')}</span>
+    <article class="card">
+      <div class="img-wrap aspect-[16/10] relative">
+        <img src="${p.img}" alt="${t(p.key+'.name')}" loading="lazy" width="600" height="375" />
+        <div class="absolute top-3 start-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 border border-white/10 text-[10px] tracking-wider text-white">
+          <span class="w-1.5 h-1.5 rounded-full bg-success"></span>${t('common.live')}
         </div>
-        <div class="absolute bottom-4 start-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold/60 bg-night/75 backdrop-blur-sm font-mono text-[10px] tracking-widest text-gold">
-          <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>${t('common.live')}
-        </div>
+        <div class="absolute top-3 end-3 z-10 font-mono text-[10px] text-white/60">${String(i+1).padStart(2,'0')}</div>
       </div>
-      <div class="p-8 relative z-10">
-        <h3 class="font-lux font-bold text-2xl text-cream leading-tight mb-4">${t(p.key+'.name')}</h3>
-        <p class="text-[15px] text-cream/70 leading-relaxed mb-7 font-light">${t(p.key+'.desc')}</p>
-        <div class="flex flex-wrap gap-2 mb-8">
-          ${p.tags.map(tag=>`<span class="px-3 py-1.5 rounded-lg border border-amber/40 bg-amber/5 font-mono text-[10.5px] text-amber">${tag}</span>`).join('')}
+      <div class="p-6">
+        <h3 class="font-bold text-[19px] text-white leading-tight mb-3">${t(p.key+'.name')}</h3>
+        <p class="text-[14px] text-muted leading-relaxed mb-5">${t(p.key+'.desc')}</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          ${p.tags.map(tag=>`<span class="px-2.5 py-1 rounded-md bg-soft border border-line text-[10.5px] text-muted">${tag}</span>`).join('')}
         </div>
         <a href="${p.url}" target="_blank" rel="noopener noreferrer"
-           class="group/btn flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl border border-gold/45 font-mono text-[13px] tracking-wider text-gold hover:bg-gold hover:text-night transition-all duration-300">
+           class="group/btn flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-line font-medium text-[13.5px] text-white hover:bg-white hover:text-ink transition-colors">
           <span>${t('common.launch')}</span>
-          <svg class="w-4 h-4 rtl-flip transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <svg class="w-3.5 h-3.5 rtl-flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
     </article>
   `).join('');
-
-  attachCardTilt();
 }
 
-function attachCardTilt(){
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  document.querySelectorAll('.lux-card').forEach(card=>{
-    card.addEventListener('mousemove', (e)=>{
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width;
-      const py = (e.clientY - r.top) / r.height;
-      card.style.setProperty('--mx', (px*100)+'%');
-      card.style.setProperty('--my', (py*100)+'%');
-      const rx = (0.5 - py) * 3.5;
-      const ry = (px - 0.5) * 3.5;
-      card.style.transform = `perspective(1400px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-12px)`;
-    });
-    card.addEventListener('mouseleave', ()=>{ card.style.transform=''; });
-  });
-}
-
-/* =========================================================
-   TYPEWRITER
-   ========================================================= */
+/* ========== TYPEWRITER ========== */
 const PHRASES = {
-  en:['Building encrypted, lightning-fast web apps.','Designing defense-grade UI systems.','Shipping production-ready experiences.','Architecting the future of the web.'],
-  de:['Ich baue verschlüsselte, blitzschnelle Web-Apps.','Ich entwerfe verteidigungsfähige UI-Systeme.','Produktionsreife Erlebnisse.','Ich architekuriere die Zukunft des Webs.'],
-  ru:['Создаю зашифрованные молниеносные веб-приложения.','Проектирую защищённые UI-системы.','Доставляю готовые к продакшену решения.','Проектирую будущее интернета.'],
-  no:['Bygger krypterte, lynraske web-apper.','Designer forsvarsklare UI-systemer.','Leverer produksjonsklare opplevelser.','Arkitekterer fremtidens web.'],
-  el:['Χτίζω κρυπτογραφημένες, αστραπιαίες web εφαρμογές.','Σχεδιάζω αμυντικά συστήματα UI.','Παραδίδω έτοιμες για παραγωγή εμπειρίες.','Αρχιτεκτονώ το μέλλον του web.'],
-  ar:['أبني تطبيقات ويب مشفرة وفائقة السرعة.','أصمم أنظمة واجهات بأمان عسكري.','أسلّم تجارب جاهزة للإنتاج.','أرسم مستقبل الويب.']
+  en:['Building encrypted, fast web apps.','Designing clean UI systems.','Shipping production-ready code.'],
+  de:['Ich baue verschlüsselte, schnelle Web-Apps.','Ich entwerfe saubere UI-Systeme.','Produktionsreifer Code.'],
+  ru:['Создаю зашифрованные быстрые веб-приложения.','Проектирую чистые UI-системы.','Готовый к продакшену код.'],
+  no:['Bygger krypterte, raske web-apper.','Designer rene UI-systemer.','Produksjonsklar kode.'],
+  el:['Χτίζω κρυπτογραφημένες, γρήγορες web εφαρμογές.','Σχεδιάζω καθαρά UI.','Κώδικας έτοιμος για παραγωγή.'],
+  ar:['أبني تطبيقات ويب مشفرة وسريعة.','أصمم أنظمة واجهات نظيفة.','كود جاهز للإنتاج.']
 };
 let typePhrases = PHRASES.en, pIndex=0, cIndex=0, deleting=false, typeTimer;
 
@@ -1270,16 +938,14 @@ function typeLoop(){
   if (!el) return;
   const cur = typePhrases[pIndex] || '';
   el.textContent = cur.slice(0, cIndex);
-  let delay = deleting ? 28 : 55;
-  if (!deleting && cIndex === cur.length){ delay = 1900; deleting = true; }
+  let delay = deleting ? 25 : 55;
+  if (!deleting && cIndex === cur.length){ delay = 2000; deleting = true; }
   else if (deleting && cIndex === 0){ deleting = false; pIndex = (pIndex+1)%typePhrases.length; delay = 300; }
   else { cIndex += deleting ? -1 : 1; }
   typeTimer = setTimeout(typeLoop, delay);
 }
 
-/* =========================================================
-   TERMINAL
-   ========================================================= */
+/* ========== TERMINAL ========== */
 const CLI_HISTORY = []; let cliHIndex = -1; let cliInit = false;
 const cliEsc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
@@ -1287,7 +953,7 @@ function cliPrint(html, cls){
   const out = document.getElementById('cliOutput');
   if (!out) return;
   const line = document.createElement('div');
-  line.className = 'cli-line cli-out ' + (cls || 'text-cream/70');
+  line.className = 'cli-line ' + (cls || 'text-muted');
   line.innerHTML = html;
   out.appendChild(line);
   out.scrollTop = out.scrollHeight;
@@ -1295,86 +961,65 @@ function cliPrint(html, cls){
 
 function cliBoot(){
   if (cliInit) return; cliInit = true;
-  cliPrint('<span class="text-gold">LAMIN.OS v5.0</span> <span class="text-cream/60">— ' + cliEsc(t('cli.ready')) + '</span>');
+  cliPrint('<span class="text-white">LAMIN.OS v1.0</span> <span class="text-muted">— ' + cliEsc(t('cli.ready')) + '</span>');
   cliPrint(t('cli.welcome'));
   cliPrint('');
 }
 
 const COMMANDS = {
   help(){
-    cliPrint('<span class="text-gold">AVAILABLE COMMANDS</span>');
-    cliPrint('<span class="text-gold/40">─────────────────────────────────────────</span>');
-    [['help','Show this reference'],['projects','List all 6 deployed apps'],['open &lt;n&gt;','Open project n'],
-     ['skills','Show technical arsenal'],['security','Show security posture'],['contact','Establish connection'],
-     ['clear','Wipe the buffer'],['sudo','...try it']]
-    .forEach(([c,d])=> cliPrint('  <span class="text-amber inline-block w-[110px]">'+c+'</span><span class="text-cream/60">'+d+'</span>'));
+    cliPrint('<span class="text-white">Available commands:</span>');
+    [['help','Show this reference'],['projects','List deployed apps'],['open <n>','Open project n'],
+     ['skills','Show technical arsenal'],['security','Security posture'],['contact','Contact info'],
+     ['clear','Clear terminal'],['sudo','...try it']]
+    .forEach(([c,d])=> cliPrint('  <span class="text-accent inline-block w-[110px]">'+c+'</span><span class="text-muted">'+d+'</span>'));
   },
   projects(){
-    cliPrint('<span class="text-gold">// DEPLOYED SYSTEMS — 6 ACTIVE</span>');
-    PROJECTS.forEach((p,i)=> cliPrint('  <span class="text-amber">['+(i+1)+']</span> <span class="text-cream">'+cliEsc(t(p.key+'.name'))+'</span>'));
-    cliPrint('<span class="text-cream/60">  run <span class="text-amber">open 3</span> to launch</span>');
+    cliPrint('<span class="text-white">Deployed systems — 6 active:</span>');
+    PROJECTS.forEach((p,i)=> cliPrint('  <span class="text-accent">['+(i+1)+']</span> <span class="text-white">'+cliEsc(t(p.key+'.name'))+'</span>'));
+    cliPrint('<span class="text-muted">  run <span class="text-accent">open 3</span> to launch</span>');
   },
   open(args){
     const n = parseInt(args[0],10);
-    if (!n || n<1 || n>PROJECTS.length){ cliPrint('<span class="text-red-400">Usage: open &lt;1-'+PROJECTS.length+'&gt;</span>'); return; }
+    if (!n || n<1 || n>PROJECTS.length){ cliPrint('<span class="text-red-400">Usage: open <1-'+PROJECTS.length+'></span>'); return; }
     const p = PROJECTS[n-1];
-    cliPrint('<span class="text-gold">Launching</span> <span class="text-cream">'+cliEsc(t(p.key+'.name'))+'</span> ...');
+    cliPrint('<span class="text-white">Launching</span> <span class="text-accent">'+cliEsc(t(p.key+'.name'))+'</span> ...');
     const w = window.open(p.url,'_blank','noopener,noreferrer'); if (w) w.opener = null;
   },
   skills(){
-    cliPrint('<span class="text-gold">// TECHNICAL ARSENAL</span>');
+    cliPrint('<span class="text-white">Technical arsenal:</span>');
     [['HTML5',98],['CSS3 / Tailwind',96],['JavaScript ES6+',94],['React / Vite',88],['UI/UX Systems',90],['Web Security',85]]
     .forEach(([l,v])=>{
       const f = Math.round(v/5);
-      cliPrint('  <span class="text-cream/90 inline-block w-[180px]">'+cliEsc(l)+'</span><span class="text-gold">'+'█'.repeat(f)+'░'.repeat(20-f)+'</span> <span class="text-cream/60">'+v+'%</span>');
+      cliPrint('  <span class="text-white inline-block w-[180px]">'+cliEsc(l)+'</span><span class="text-accent">'+'█'.repeat(f)+'░'.repeat(20-f)+'</span> <span class="text-muted">'+v+'%</span>');
     });
   },
   security(){
-    cliPrint('<span class="text-gold">// SECURITY POSTURE</span>');
-    cliPrint('  TLS 1.3 · AES-256-GCM · CSP ENFORCED · 0 THREATS');
+    cliPrint('<span class="text-white">Security posture:</span>');
+    cliPrint('  TLS 1.3 · AES-256-GCM · CSP enforced · 0 threats');
   },
   contact(){
-    cliPrint('<span class="text-gold">// ESTABLISH CONNECTION</span>');
-    cliPrint('  <a href="https://github.com/lamin-16" target="_blank" rel="noopener noreferrer" class="text-amber underline">github.com/lamin-16</a>');
+    cliPrint('<span class="text-white">Connection:</span>');
+    cliPrint('  <a href="https://github.com/lamin-16" target="_blank" rel="noopener noreferrer" class="text-accent underline">github.com/lamin-16</a>');
   },
-  sudo(){ cliPrint('<span class="text-red-400">Permission denied.</span>'); cliPrint('<span class="text-cream/60">  Nice try. Incident logged. 🛡️</span>'); },
+  sudo(){ cliPrint('<span class="text-red-400">Permission denied.</span>'); cliPrint('<span class="text-muted">  Nice try.</span>'); },
   clear(){ const o = document.getElementById('cliOutput'); if (o) o.innerHTML=''; }
 };
 
 function cliRun(raw){
   const v = raw.trim(); if (!v) return;
-  cliPrint('<span class="text-gold">visitor@lamin:~$</span> <span class="text-cream">'+cliEsc(v)+'</span>','mt-3');
+  cliPrint('<span class="text-success">$</span> <span class="text-white">'+cliEsc(v)+'</span>','mt-2');
   const parts = v.split(/\s+/), cmd = parts[0].toLowerCase(), args = parts.slice(1);
   if (Object.prototype.hasOwnProperty.call(COMMANDS, cmd)){
     try { COMMANDS[cmd](args); } catch(e){ cliPrint('<span class="text-red-400">Command error.</span>'); }
   } else {
     cliPrint('<span class="text-red-400">command not found: '+cliEsc(cmd)+'</span>');
-    cliPrint('<span class="text-cream/60">  type <span class="text-amber">help</span></span>');
+    cliPrint('<span class="text-muted">  type <span class="text-accent">help</span></span>');
   }
 }
 
-/* =========================================================
-   CURSOR
-   ========================================================= */
-function initCursor(){
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  document.documentElement.classList.add('custom-cursor');
-  const dot = document.getElementById('cursorDot');
-  const ring = document.getElementById('cursorRing');
-  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-  addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; dot.style.transform=`translate3d(${mx}px,${my}px,0)`; }, {passive:true});
-  (function loop(){ rx+=(mx-rx)*.16; ry+=(my-ry)*.16; ring.style.transform=`translate3d(${rx}px,${ry}px,0)`; requestAnimationFrame(loop); })();
-  const targets = 'a, button, input, [data-cmd], .lux-card';
-  document.addEventListener('mouseover', e=>{ if (e.target.closest(targets)) ring.classList.add('hover'); });
-  document.addEventListener('mouseout', e=>{ if (e.target.closest(targets)) ring.classList.remove('hover'); });
-}
-
-/* =========================================================
-   INIT
-   ========================================================= */
+/* ========== INIT ========== */
 document.addEventListener('DOMContentLoaded', ()=>{
-
-  addEventListener('load', ()=> setTimeout(()=> document.getElementById('loader').classList.add('hide'), 500));
 
   const langBtn = document.getElementById('langBtn');
   const langMenu = document.getElementById('langMenu');
@@ -1395,12 +1040,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   menuBtn.addEventListener('click', ()=> mobileNav.classList.toggle('hidden'));
   mobileNav.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mobileNav.classList.add('hidden')));
 
-  const prog = document.getElementById('scrollProgress');
-  addEventListener('scroll', ()=>{
-    const h = document.documentElement.scrollHeight - innerHeight;
-    prog.style.width = (h>0 ? (scrollY/h)*100 : 0) + '%';
-  }, {passive:true});
-
   const cliInput = document.getElementById('cliInput');
   cliInput.addEventListener('keydown', e=>{
     if (e.key === 'Enter'){
@@ -1418,11 +1057,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 
-  document.querySelectorAll('#terminal').forEach(el=>{
-    el.addEventListener('click', e=>{
-      if (window.getSelection().toString()) return;
-      if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') cliInput.focus();
-    });
+  document.getElementById('terminal')?.addEventListener('click', e=>{
+    if (window.getSelection().toString()) return;
+    if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') cliInput.focus();
   });
 
   document.querySelectorAll('[data-cmd]').forEach(btn=>{
@@ -1435,35 +1072,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
   });
 
-  document.querySelectorAll('[data-count]').forEach(el=>{
-    const target = parseInt(el.dataset.count, 10);
-    const suffix = el.dataset.suffix || '';
-    const dur = 1600, start = performance.now();
-    function tick(now){
-      const p = Math.min((now-start)/dur, 1);
-      const e = 1 - Math.pow(1-p, 3);
-      el.textContent = Math.round(target*e) + suffix;
-      if (p<1) requestAnimationFrame(tick);
-    }
-    setTimeout(()=> requestAnimationFrame(tick), 900);
-  });
-
-  initCursor();
   applyLanguage(currentLang);
   cliBoot();
   typeLoop();
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  if ('IntersectionObserver' in window){
-    const vio = new IntersectionObserver((entries)=>{
-      entries.forEach(en=>{
-        const v = en.target;
-        if (en.isIntersecting){ v.play().catch(()=>{}); }
-        else { v.pause(); }
-      });
-    }, {threshold:.1});
-    document.querySelectorAll('video').forEach(v=> vio.observe(v));
-  }
 });
 </script>
 
