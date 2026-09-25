@@ -77,9 +77,6 @@
     border-radius:99px;
     border:2px solid #05070a;
   }
-  ::-webkit-scrollbar-thumb:hover{
-    background:linear-gradient(180deg, rgba(0,255,156,.9), rgba(34,211,238,.9));
-  }
 
   html.custom-cursor, html.custom-cursor *{ cursor:none !important; }
   #cursorDot, #cursorRing{
@@ -150,10 +147,6 @@
     border:1px solid rgba(0,255,156,.16);
   }
 
-  .neon-text{
-    color:#00ff9c;
-    text-shadow:0 0 8px rgba(0,255,156,.65), 0 0 26px rgba(0,255,156,.28);
-  }
   .grad-text{
     background:linear-gradient(100deg,#00ff9c 0%,#5eead4 38%,#22d3ee 70%,#38bdf8 100%);
     -webkit-background-clip:text; background-clip:text;
@@ -168,9 +161,6 @@
   }
   .brackets::before{ top:-1px; left:-1px; border-top:1px solid; border-left:1px solid; }
   .brackets::after{ bottom:-1px; right:-1px; border-bottom:1px solid; border-right:1px solid; }
-  .brackets:hover::before, .brackets:hover::after{
-    width:30px; height:30px; border-color:rgba(34,211,238,.9);
-  }
 
   .project-card{
     position:relative;
@@ -235,11 +225,10 @@
     100%{ transform:scale(2.4); opacity:0; }
   }
 
+  /* IMPORTANT: .reveal now always visible by default (no JS dependency) */
   .reveal{
-    opacity:0; transform:translateY(26px);
-    transition:opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1);
+    opacity:1; transform:none;
   }
-  .reveal.is-visible{ opacity:1; transform:none; }
 
   .cli-line{ line-height:1.65; word-break:break-word; }
   .cli-out{ animation:fadeUp .28s ease both; }
@@ -275,7 +264,6 @@
       transition-duration:.001ms !important;
       scroll-behavior:auto !important;
     }
-    .reveal{ opacity:1 !important; transform:none !important; }
   }
 
   a:focus-visible, button:focus-visible, input:focus-visible{
@@ -290,7 +278,6 @@
 
 <div id="cursorDot" aria-hidden="true"></div>
 <div id="cursorRing" aria-hidden="true"></div>
-
 <div id="scrollProgress" aria-hidden="true"></div>
 
 <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -302,20 +289,13 @@
 </div>
 <div class="scanlines" aria-hidden="true"></div>
 
-<a href="#main"
-   class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:bg-neon focus:text-void focus:font-mono focus:text-sm focus:rounded">
-  Skip to content
-</a>
-
 <header class="fixed top-0 inset-x-0 z-50">
   <div class="glass-strong border-b border-neon/10">
     <div class="max-w-7xl mx-auto px-5 sm:px-8">
       <div class="h-16 flex items-center justify-between gap-4">
-
-        <a href="#hero" class="flex items-center gap-3 group shrink-0" aria-label="LAMIN home">
+        <a href="#hero" class="flex items-center gap-3 group shrink-0">
           <span class="relative grid place-items-center w-9 h-9 rounded-md border border-neon/40 bg-neon/5">
             <span class="font-display font-black text-neon text-sm tracking-tighter">L</span>
-            <span class="absolute inset-0 rounded-md border border-cyanx/0 group-hover:border-cyanx/60 transition-colors duration-300"></span>
           </span>
           <span class="hidden sm:block font-display font-bold tracking-[0.22em] text-slate-100 text-sm">
             LAMIN<span class="text-neon">.</span>DEV
@@ -358,9 +338,6 @@
         <a href="#terminal" class="py-3 border-b border-white/5 text-slate-400 hover:text-neon transition-colors">./terminal</a>
         <a href="#arsenal"  class="py-3 border-b border-white/5 text-slate-400 hover:text-neon transition-colors">./arsenal</a>
         <a href="#contact"  class="py-3 text-slate-400 hover:text-neon transition-colors">./contact</a>
-        <div class="mt-3 flex items-center gap-2 font-mono text-[10px] tracking-widest text-neon/90">
-          <span class="pulse-dot"></span> SECURE • TLS 1.3 • AES-256
-        </div>
       </nav>
     </div>
   </div>
@@ -371,7 +348,7 @@
 <section id="hero" class="relative min-h-screen flex items-center pt-28 pb-20 px-5 sm:px-8">
   <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-16 items-center">
 
-    <div class="reveal">
+    <div>
       <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-neon/25 bg-neon/5 font-mono text-[11px] tracking-[0.18em] text-neon mb-7">
         <span class="pulse-dot"></span>
         SYSTEM ONLINE — ACCEPTING NEW MISSIONS
@@ -398,19 +375,15 @@
 
       <div class="mt-9 flex flex-wrap items-center gap-4">
         <a href="#projects"
-           class="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-md font-mono text-sm font-medium
-                  bg-neon text-void overflow-hidden transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]">
-          <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700
-                       bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+           class="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-md font-mono text-sm font-medium bg-neon text-void overflow-hidden transition-transform duration-300 hover:scale-[1.03]">
           <span class="relative">DEPLOYED SYSTEMS</span>
-          <svg class="relative w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="relative w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14M13 6l6 6-6 6"/>
           </svg>
         </a>
 
         <a href="#terminal"
-           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-md font-mono text-sm
-                  border border-neon/30 text-neon hover:bg-neon/10 hover:border-neon/60 transition-all duration-300">
+           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-md font-mono text-sm border border-neon/30 text-neon hover:bg-neon/10 transition-all duration-300">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 17l6-5-6-5M12 19h8"/>
           </svg>
@@ -440,8 +413,8 @@
       </div>
     </div>
 
-    <div class="reveal" style="transition-delay:.15s">
-      <div class="brackets glass-strong rounded-xl overflow-hidden shadow-[0_30px_90px_-40px_rgba(0,255,156,.35)]">
+    <div>
+      <div class="brackets glass-strong rounded-xl overflow-hidden">
         <div class="flex items-center gap-3 px-4 py-3 border-b border-neon/12 bg-black/40">
           <div class="flex gap-1.5">
             <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
@@ -458,4 +431,785 @@
              class="p-5 font-mono text-[12.5px] leading-relaxed text-slate-400 h-[300px] sm:h-[340px] overflow-hidden"></div>
       </div>
 
-      <div class=
+      <div class="grid grid-cols-3 gap-3 mt-4">
+        <div class="glass rounded-lg px-3 py-3 text-center">
+          <div class="font-display font-bold text-neon text-lg leading-none" data-count="6">6</div>
+          <div class="font-mono text-[9.5px] tracking-widest text-slate-500 mt-1.5">APPS LIVE</div>
+        </div>
+        <div class="glass rounded-lg px-3 py-3 text-center">
+          <div class="font-display font-bold text-neon text-lg leading-none" data-count="100" data-suffix="%">100%</div>
+          <div class="font-mono text-[9.5px] tracking-widest text-slate-500 mt-1.5">UPTIME</div>
+        </div>
+        <div class="glass rounded-lg px-3 py-3 text-center">
+          <div class="font-display font-bold text-neon text-lg leading-none" data-count="256" data-suffix="-bit">256-bit</div>
+          <div class="font-mono text-[9.5px] tracking-widest text-slate-500 mt-1.5">ENCRYPT</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="relative py-7 border-y border-neon/10 bg-black/30 overflow-hidden">
+  <div class="marquee-track font-mono text-xs tracking-[0.25em] text-slate-600">
+    <span class="flex gap-12">
+      <span>HTML5</span><span class="text-neon/40">◆</span>
+      <span>CSS3</span><span class="text-neon/40">◆</span>
+      <span>TAILWIND CSS</span><span class="text-neon/40">◆</span>
+      <span>JAVASCRIPT ES6+</span><span class="text-neon/40">◆</span>
+      <span>REACT</span><span class="text-neon/40">◆</span>
+      <span>VITE</span><span class="text-neon/40">◆</span>
+      <span>NODE.JS</span><span class="text-neon/40">◆</span>
+      <span>CANVAS API</span><span class="text-neon/40">◆</span>
+      <span>WEB SECURITY</span><span class="text-neon/40">◆</span>
+      <span>UI / UX SYSTEMS</span><span class="text-neon/40">◆</span>
+    </span>
+    <span class="flex gap-12" aria-hidden="true">
+      <span>HTML5</span><span class="text-neon/40">◆</span>
+      <span>CSS3</span><span class="text-neon/40">◆</span>
+      <span>TAILWIND CSS</span><span class="text-neon/40">◆</span>
+      <span>JAVASCRIPT ES6+</span><span class="text-neon/40">◆</span>
+      <span>REACT</span><span class="text-neon/40">◆</span>
+      <span>VITE</span><span class="text-neon/40">◆</span>
+      <span>NODE.JS</span><span class="text-neon/40">◆</span>
+      <span>CANVAS API</span><span class="text-neon/40">◆</span>
+      <span>WEB SECURITY</span><span class="text-neon/40">◆</span>
+      <span>UI / UX SYSTEMS</span><span class="text-neon/40">◆</span>
+    </span>
+  </div>
+</section>
+
+<section id="projects" class="relative py-24 sm:py-32 px-5 sm:px-8">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="mb-14">
+      <div class="font-mono text-[11px] tracking-[0.35em] text-neon/70 mb-4">// 01 — DEPLOYED SYSTEMS</div>
+      <h2 class="font-display font-black text-3xl sm:text-5xl text-slate-100 tracking-tight">
+        LIVE <span class="grad-text">APPLICATIONS</span>
+      </h2>
+      <p class="mt-5 max-w-2xl text-slate-400 leading-relaxed">
+        Six production systems, all deployed and battle-tested on the edge.
+        Every build ships with hardened external links, optimized payloads and responsive layouts.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <article class="project-card glass rounded-xl overflow-hidden">
+        <div class="card-spot"></div>
+        <div class="mockup aspect-[16/10] grid place-items-center">
+          <svg class="relative w-14 h-14 text-neon/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6"/>
+          </svg>
+          <span class="absolute bottom-3 right-3 font-mono text-[9.5px] tracking-widest text-neon/60">01</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="font-display font-bold text-lg text-slate-100 leading-tight">Lebenslauf Lamin</h3>
+            <span class="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-neon/30 bg-neon/5 font-mono text-[9px] tracking-widest text-neon">
+              <span class="w-1 h-1 rounded-full bg-neon"></span>LIVE
+            </span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-5">
+            A precision résumé builder with live A4 preview, instant PDF export and
+            ATS-optimized typography for the German job market.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">JavaScript</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Tailwind</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">PDF Engine</span>
+          </div>
+          <a href="https://lebenslauf-lamin.vercel.app/" target="_blank" rel="noopener noreferrer"
+             class="flex items-center justify-center gap-2 w-full py-3 rounded-md border border-neon/35 font-mono text-xs tracking-wider text-neon hover:bg-neon hover:text-void transition-all duration-300">
+            LAUNCH LIVE APP →
+          </a>
+        </div>
+      </article>
+
+      <article class="project-card glass rounded-xl overflow-hidden">
+        <div class="card-spot"></div>
+        <div class="mockup aspect-[16/10] grid place-items-center">
+          <svg class="relative w-14 h-14 text-neon/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3.6"/>
+            <circle cx="12" cy="12" r="8.4" opacity=".45"/>
+          </svg>
+          <span class="absolute bottom-3 right-3 font-mono text-[9.5px] tracking-widest text-neon/60">02</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="font-display font-bold text-lg text-slate-100 leading-tight">Auracore</h3>
+            <span class="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-neon/30 bg-neon/5 font-mono text-[9px] tracking-widest text-neon">
+              <span class="w-1 h-1 rounded-full bg-neon"></span>LIVE
+            </span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-5">
+            An immersive aura-energy experience driven by kinetic visuals,
+            GPU-friendly animation layers and a reactive interface core.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Canvas</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">CSS Anim</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Vercel</span>
+          </div>
+          <a href="https://auracore-coral.vercel.app/" target="_blank" rel="noopener noreferrer"
+             class="flex items-center justify-center gap-2 w-full py-3 rounded-md border border-neon/35 font-mono text-xs tracking-wider text-neon hover:bg-neon hover:text-void transition-all duration-300">
+            LAUNCH LIVE APP →
+          </a>
+        </div>
+      </article>
+
+      <article class="project-card glass rounded-xl overflow-hidden">
+        <div class="card-spot"></div>
+        <div class="mockup aspect-[16/10] grid place-items-center">
+          <svg class="relative w-14 h-14 text-neon/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10 12 5 2 10l10 5 10-5Z"/>
+            <path d="M6 12v5c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-5"/>
+          </svg>
+          <span class="absolute bottom-3 right-3 font-mono text-[9.5px] tracking-widest text-neon/60">03</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="font-display font-bold text-lg text-slate-100 leading-tight">Lamin Lerne Deutsch</h3>
+            <span class="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-neon/30 bg-neon/5 font-mono text-[9px] tracking-widest text-neon">
+              <span class="w-1 h-1 rounded-full bg-neon"></span>LIVE
+            </span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-5">
+            A gamified German-learning platform with A1–B2 modules, spaced-repetition
+            quizzes and persistent progress tracking.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Vanilla JS</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">LocalStorage</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Speech API</span>
+          </div>
+          <a href="https://lamind-lerne-deutsch.vercel.app/" target="_blank" rel="noopener noreferrer"
+             class="flex items-center justify-center gap-2 w-full py-3 rounded-md border border-neon/35 font-mono text-xs tracking-wider text-neon hover:bg-neon hover:text-void transition-all duration-300">
+            LAUNCH LIVE APP →
+          </a>
+        </div>
+      </article>
+
+      <article class="project-card glass rounded-xl overflow-hidden">
+        <div class="card-spot"></div>
+        <div class="mockup aspect-[16/10] grid place-items-center">
+          <svg class="relative w-14 h-14 text-neon/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6"/>
+            <path d="M12 11.5v6M9 14.5h6"/>
+          </svg>
+          <span class="absolute bottom-3 right-3 font-mono text-[9.5px] tracking-widest text-neon/60">04</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="font-display font-bold text-lg text-slate-100 leading-tight">Lebenslauf Erstellen</h3>
+            <span class="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-neon/30 bg-neon/5 font-mono text-[9px] tracking-widest text-neon">
+              <span class="w-1 h-1 rounded-full bg-neon"></span>LIVE
+            </span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-5">
+            A zero-friction, no-signup CV generator. Pick a template, fill the fields,
+            export a print-perfect PDF in under sixty seconds.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">HTML5</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Tailwind</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Print CSS</span>
+          </div>
+          <a href="https://lebenslauf-erstellen-kostenlos.vercel.app/" target="_blank" rel="noopener noreferrer"
+             class="flex items-center justify-center gap-2 w-full py-3 rounded-md border border-neon/35 font-mono text-xs tracking-wider text-neon hover:bg-neon hover:text-void transition-all duration-300">
+            LAUNCH LIVE APP →
+          </a>
+        </div>
+      </article>
+
+      <article class="project-card glass rounded-xl overflow-hidden">
+        <div class="card-spot"></div>
+        <div class="mockup aspect-[16/10] grid place-items-center">
+          <svg class="relative w-14 h-14 text-neon/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7.5 7.5 3l3 3-4.5 4.5z"/>
+            <path d="M9 10.5 20 21.5"/>
+          </svg>
+          <span class="absolute bottom-3 right-3 font-mono text-[9.5px] tracking-widest text-neon/60">05</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="font-display font-bold text-lg text-slate-100 leading-tight">Toolbox World</h3>
+            <span class="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-neon/30 bg-neon/5 font-mono text-[9px] tracking-widest text-neon">
+              <span class="w-1 h-1 rounded-full bg-neon"></span>LIVE
+            </span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-5">
+            An all-in-one utility hub bundling converters, encoders, generators and
+            developer micro-tools into one blazing-fast interface.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Vanilla JS</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Web Crypto</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">PWA</span>
+          </div>
+          <a href="https://toolbox-world.vercel.app/" target="_blank" rel="noopener noreferrer"
+             class="flex items-center justify-center gap-2 w-full py-3 rounded-md border border-neon/35 font-mono text-xs tracking-wider text-neon hover:bg-neon hover:text-void transition-all duration-300">
+            LAUNCH LIVE APP →
+          </a>
+        </div>
+      </article>
+
+      <article class="project-card glass rounded-xl overflow-hidden">
+        <div class="card-spot"></div>
+        <div class="mockup aspect-[16/10] grid place-items-center">
+          <svg class="relative w-14 h-14 text-neon/85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8.5"/>
+            <circle cx="12" cy="12" r="2.2"/>
+          </svg>
+          <span class="absolute bottom-3 right-3 font-mono text-[9.5px] tracking-widest text-neon/60">06</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="font-display font-bold text-lg text-slate-100 leading-tight">Steel Front Game</h3>
+            <span class="shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-neon/30 bg-neon/5 font-mono text-[9px] tracking-widest text-neon">
+              <span class="w-1 h-1 rounded-full bg-neon"></span>LIVE
+            </span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed mb-5">
+            A browser-native armored warfare game with a fixed-timestep loop,
+            particle FX, wave-based combat and a military HUD.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Canvas 2D</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Game Loop</span>
+            <span class="px-2.5 py-1 rounded border border-cyanx/25 bg-cyanx/5 font-mono text-[10px] text-cyanx/90">Web Audio</span>
+          </div>
+          <a href="https://steel-front-game.vercel.app/" target="_blank" rel="noopener noreferrer"
+             class="flex items-center justify-center gap-2 w-full py-3 rounded-md border border-neon/35 font-mono text-xs tracking-wider text-neon hover:bg-neon hover:text-void transition-all duration-300">
+            LAUNCH LIVE APP →
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="terminal" class="relative py-24 sm:py-32 px-5 sm:px-8">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-12">
+      <div class="font-mono text-[11px] tracking-[0.35em] text-neon/70 mb-4">// 02 — COMMAND CENTER</div>
+      <h2 class="font-display font-black text-3xl sm:text-5xl text-slate-100 tracking-tight">
+        INTERACTIVE <span class="grad-text">TERMINAL</span>
+      </h2>
+      <p class="mt-5 text-slate-400 leading-relaxed max-w-xl mx-auto">
+        Type a command and hit <span class="text-neon font-mono">ENTER</span>.
+        Start with <span class="text-neon font-mono">help</span>.
+      </p>
+    </div>
+
+    <div>
+      <div id="terminalWindow" class="brackets glass-strong rounded-xl overflow-hidden">
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-neon/12 bg-black/40">
+          <div class="flex gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-neon/80"></span>
+          </div>
+          <span class="font-mono text-[11px] tracking-widest text-slate-500 ml-2">visitor@lamin:~</span>
+          <span class="ml-auto flex items-center gap-2 font-mono text-[10px] text-neon/80">
+            <span class="pulse-dot"></span> ENCRYPTED SESSION
+          </span>
+        </div>
+
+        <div id="cliOutput" class="p-5 font-mono text-[12.5px] h-[340px] sm:h-[380px] overflow-y-auto"></div>
+
+        <div class="flex items-center gap-2 px-5 py-4 border-t border-neon/12 bg-black/40">
+          <span class="font-mono text-[12.5px] text-neon shrink-0 select-none">visitor@lamin:~$</span>
+          <input id="cliInput" type="text"
+                 class="flex-1 bg-transparent border-none outline-none font-mono text-[12.5px] text-slate-200 placeholder-slate-600"
+                 placeholder="type a command..."
+                 autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
+        </div>
+      </div>
+
+      <div class="mt-5 flex flex-wrap items-center gap-2.5">
+        <span class="font-mono text-[10px] tracking-widest text-slate-600 mr-1">QUICK:</span>
+        <button type="button" data-cmd="help"     class="px-3 py-1.5 rounded border border-neon/25 bg-neon/5 font-mono text-[11px] text-neon/90 hover:bg-neon/15 transition-all">help</button>
+        <button type="button" data-cmd="projects" class="px-3 py-1.5 rounded border border-neon/25 bg-neon/5 font-mono text-[11px] text-neon/90 hover:bg-neon/15 transition-all">projects</button>
+        <button type="button" data-cmd="skills"   class="px-3 py-1.5 rounded border border-neon/25 bg-neon/5 font-mono text-[11px] text-neon/90 hover:bg-neon/15 transition-all">skills</button>
+        <button type="button" data-cmd="security" class="px-3 py-1.5 rounded border border-neon/25 bg-neon/5 font-mono text-[11px] text-neon/90 hover:bg-neon/15 transition-all">security</button>
+        <button type="button" data-cmd="contact"  class="px-3 py-1.5 rounded border border-neon/25 bg-neon/5 font-mono text-[11px] text-neon/90 hover:bg-neon/15 transition-all">contact</button>
+        <button type="button" data-cmd="clear"    class="px-3 py-1.5 rounded border border-red-500/30 bg-red-500/5 font-mono text-[11px] text-red-400 hover:bg-red-500/15 transition-all">clear</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="arsenal" class="relative py-24 sm:py-32 px-5 sm:px-8">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="mb-14">
+      <div class="font-mono text-[11px] tracking-[0.35em] text-neon/70 mb-4">// 03 — ARSENAL</div>
+      <h2 class="font-display font-black text-3xl sm:text-5xl text-slate-100 tracking-tight">
+        CORE <span class="grad-text">CAPABILITIES</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-x-14 gap-y-8">
+      <div class="space-y-7">
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-mono text-[12.5px] text-slate-300">HTML5 / Semantic Markup</span>
+            <span class="font-mono text-[12px] text-neon">98%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div class="h-full rounded-full" style="width:98%; background:linear-gradient(90deg,#00ff9c,#22d3ee);"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-mono text-[12.5px] text-slate-300">CSS3 / Tailwind CSS</span>
+            <span class="font-mono text-[12px] text-neon">96%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div class="h-full rounded-full" style="width:96%; background:linear-gradient(90deg,#00ff9c,#22d3ee);"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-mono text-[12.5px] text-slate-300">JavaScript ES6+</span>
+            <span class="font-mono text-[12px] text-neon">94%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div class="h-full rounded-full" style="width:94%; background:linear-gradient(90deg,#00ff9c,#22d3ee);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-7">
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-mono text-[12.5px] text-slate-300">React / Vite</span>
+            <span class="font-mono text-[12px] text-neon">88%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div class="h-full rounded-full" style="width:88%; background:linear-gradient(90deg,#00ff9c,#22d3ee);"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-mono text-[12.5px] text-slate-300">UI / UX & Design Systems</span>
+            <span class="font-mono text-[12px] text-neon">90%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div class="h-full rounded-full" style="width:90%; background:linear-gradient(90deg,#00ff9c,#22d3ee);"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="font-mono text-[12.5px] text-slate-300">Web Security / CSP</span>
+            <span class="font-mono text-[12px] text-neon">85%</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div class="h-full rounded-full" style="width:85%; background:linear-gradient(90deg,#00ff9c,#22d3ee);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-16">
+      <div class="glass rounded-xl p-6 brackets">
+        <svg class="w-7 h-7 text-neon mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4Z"/><path d="m9 12 2 2 4-4"/>
+        </svg>
+        <h3 class="font-display font-bold text-slate-100 text-sm tracking-wide mb-2">SECURITY-FIRST</h3>
+        <p class="text-[13px] text-slate-400 leading-relaxed">CSP headers, safe external links, input sanitisation and zero-trust frontend patterns.</p>
+      </div>
+
+      <div class="glass rounded-xl p-6 brackets">
+        <svg class="w-7 h-7 text-neon mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+        </svg>
+        <h3 class="font-display font-bold text-slate-100 text-sm tracking-wide mb-2">PERFORMANCE</h3>
+        <p class="text-[13px] text-slate-400 leading-relaxed">Sub-second loads, lazy execution, GPU-accelerated animation and minimal main-thread work.</p>
+      </div>
+
+      <div class="glass rounded-xl p-6 brackets">
+        <svg class="w-7 h-7 text-neon mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/>
+        </svg>
+        <h3 class="font-display font-bold text-slate-100 text-sm tracking-wide mb-2">RESPONSIVE</h3>
+        <p class="text-[13px] text-slate-400 leading-relaxed">Fluid layouts engineered for every breakpoint — from 320px handsets to ultrawide displays.</p>
+      </div>
+
+      <div class="glass rounded-xl p-6 brackets">
+        <svg class="w-7 h-7 text-neon mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
+        </svg>
+        <h3 class="font-display font-bold text-slate-100 text-sm tracking-wide mb-2">DESIGN SYSTEMS</h3>
+        <p class="text-[13px] text-slate-400 leading-relaxed">Token-driven, scalable component libraries with obsessive attention to micro-interaction detail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer id="contact" class="relative border-t border-neon/12 bg-black/40 pt-20 pb-10 px-5 sm:px-8 mt-10">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="grid lg:grid-cols-[1.2fr_1fr] gap-14 mb-16">
+      <div>
+        <div class="font-mono text-[11px] tracking-[0.35em] text-neon/70 mb-4">// 04 — ESTABLISH CONNECTION</div>
+        <h2 class="font-display font-black text-3xl sm:text-5xl text-slate-100 tracking-tight leading-tight">
+          LET'S BUILD<br /><span class="grad-text">SOMETHING SECURE.</span>
+        </h2>
+        <p class="mt-6 max-w-lg text-slate-400 leading-relaxed">
+          Available for freelance missions, product builds and frontend architecture
+          consulting. Response time: under 24 hours.
+        </p>
+
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a href="https://github.com/lamin-16" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 px-7 py-3.5 rounded-md bg-neon text-void font-mono text-sm font-medium hover:scale-[1.03] transition-transform duration-300">
+            VIEW GITHUB
+          </a>
+          <a href="#projects"
+             class="inline-flex items-center gap-2 px-7 py-3.5 rounded-md border border-neon/30 text-neon font-mono text-sm hover:bg-neon/10 transition-all duration-300">
+            REVIEW SYSTEMS
+          </a>
+        </div>
+      </div>
+
+      <div class="glass rounded-xl p-6 h-fit">
+        <div class="flex items-center justify-between mb-6">
+          <span class="font-mono text-[11px] tracking-[0.25em] text-slate-500">SECURITY_STATUS</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] text-neon">
+            <span class="pulse-dot"></span> ALL SYSTEMS NOMINAL
+          </span>
+        </div>
+
+        <div class="space-y-4 font-mono text-[12px]">
+          <div class="flex items-center justify-between pb-3 border-b border-white/5">
+            <span class="text-slate-500">Transport Layer</span>
+            <span class="text-neon">TLS 1.3</span>
+          </div>
+          <div class="flex items-center justify-between pb-3 border-b border-white/5">
+            <span class="text-slate-500">Cipher Suite</span>
+            <span class="text-neon">AES-256-GCM</span>
+          </div>
+          <div class="flex items-center justify-between pb-3 border-b border-white/5">
+            <span class="text-slate-500">Content Policy</span>
+            <span class="text-neon">CSP ACTIVE</span>
+          </div>
+          <div class="flex items-center justify-between pb-3 border-b border-white/5">
+            <span class="text-slate-500">External Links</span>
+            <span class="text-neon">noopener · noreferrer</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-500">Threat Scan</span>
+            <span class="text-neon">0 THREATS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-5">
+      <div class="flex items-center gap-3">
+        <span class="grid place-items-center w-8 h-8 rounded-md border border-neon/40 bg-neon/5 font-display font-black text-neon text-xs">L</span>
+        <span class="font-mono text-[11px] text-slate-500">
+          © <span id="year">2025</span> LAMIN.DEV — ALL RIGHTS RESERVED
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2 px-3.5 py-2 rounded-full border border-neon/25 bg-neon/5 font-mono text-[10px] tracking-widest text-neon/90">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+        </svg>
+        SECURE CONNECTION · SSL 256-BIT ENCRYPTED
+      </div>
+
+      <div class="font-mono text-[11px] text-slate-600">
+        BUILT WITH <span class="text-neon">◆</span> PRECISION
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const PROJECTS = [
+    { n: 'Lebenslauf Lamin',                u: 'https://lebenslauf-lamin.vercel.app/',              d: 'Résumé builder with live A4 preview + PDF export' },
+    { n: 'Auracore',                        u: 'https://auracore-coral.vercel.app/',                d: 'Immersive aura-energy visual experience' },
+    { n: 'Lamin Lerne Deutsch',             u: 'https://lamind-lerne-deutsch.vercel.app/',          d: 'Gamified German learning platform (A1-B2)' },
+    { n: 'Lebenslauf Erstellen Kostenlos',  u: 'https://lebenslauf-erstellen-kostenlos.vercel.app/',d: 'Zero-signup free CV generator' },
+    { n: 'Toolbox World',                   u: 'https://toolbox-world.vercel.app/',                 d: 'All-in-one developer utility hub' },
+    { n: 'Steel Front Game',                u: 'https://steel-front-game.vercel.app/',              d: 'Browser-native armored warfare game' }
+  ];
+
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (finePointer) {
+    document.documentElement.classList.add('custom-cursor');
+
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let rx = mx, ry = my;
+
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
+    }, { passive: true });
+
+    (function loop() {
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
+      requestAnimationFrame(loop);
+    })();
+
+    const hoverTargets = 'a, button, input, [data-cmd]';
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest(hoverTargets)) ring.classList.add('is-hover');
+    });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest(hoverTargets)) ring.classList.remove('is-hover');
+    });
+  }
+
+  const progress = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }, { passive: true });
+
+  const menuBtn  = document.getElementById('menuBtn');
+  const mobileNav = document.getElementById('mobileNav');
+  menuBtn.addEventListener('click', () => {
+    mobileNav.classList.toggle('hidden');
+  });
+
+  const PHRASES = [
+    'Building encrypted, lightning-fast web apps.',
+    'Designing defense-grade UI systems.',
+    'Shipping production-ready experiences.',
+    'Turning ideas into deployed reality.'
+  ];
+  const typedEl = document.getElementById('typedText');
+  let pIndex = 0, cIndex = 0, deleting = false;
+
+  function typeLoop() {
+    const current = PHRASES[pIndex];
+    typedEl.textContent = current.slice(0, cIndex);
+    let delay = deleting ? 32 : 62;
+    if (!deleting && cIndex === current.length) {
+      delay = 1900; deleting = true;
+    } else if (deleting && cIndex === 0) {
+      deleting = false;
+      pIndex = (pIndex + 1) % PHRASES.length;
+      delay = 320;
+    } else {
+      cIndex += deleting ? -1 : 1;
+    }
+    setTimeout(typeLoop, delay);
+  }
+  typeLoop();
+
+  const BOOT_LINES = [
+    { t: '[ 0.001 ] initializing kernel ............ ', s: 'OK' },
+    { t: '[ 0.042 ] mounting /dev/portfolio ........ ', s: 'OK' },
+    { t: '[ 0.118 ] loading ui.matrix.module ....... ', s: 'OK' },
+    { t: '[ 0.231 ] handshake TLS 1.3 / AES-256 .... ', s: 'SECURE' },
+    { t: '[ 0.377 ] threat scan .................... ', s: '0 THREATS' },
+    { t: '[ 0.512 ] compiling shaders .............. ', s: 'OK' },
+    { t: '[ 0.688 ] rendering experience ........... ', s: 'READY' }
+  ];
+
+  const bootLog = document.getElementById('bootLog');
+  if (bootLog) {
+    let i = 0;
+    (function next() {
+      if (i >= BOOT_LINES.length) {
+        const footer = document.createElement('div');
+        footer.className = 'mt-3 text-neon';
+        footer.innerHTML = '&gt; welcome, visitor.<span class="type-caret"></span>';
+        bootLog.appendChild(footer);
+        return;
+      }
+      const line = BOOT_LINES[i];
+      const el = document.createElement('div');
+      el.className = 'cli-out';
+      el.innerHTML = line.t + '<span class="text-neon font-medium">' + line.s + '</span>';
+      bootLog.appendChild(el);
+      i++;
+      setTimeout(next, 260);
+    })();
+  }
+
+  const cliOut   = document.getElementById('cliOutput');
+  const cliInput = document.getElementById('cliInput');
+  const cliWin   = document.getElementById('terminalWindow');
+
+  const history = [];
+  let hIndex = -1;
+
+  const esc = (str) => String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  function print(html, cls) {
+    const line = document.createElement('div');
+    line.className = 'cli-line cli-out ' + (cls || 'text-slate-400');
+    line.innerHTML = html;
+    cliOut.appendChild(line);
+    cliOut.scrollTop = cliOut.scrollHeight;
+  }
+
+  const COMMANDS = {
+    help() {
+      print('<span class="text-neon">AVAILABLE COMMANDS</span>');
+      print('<span class="text-neon/40">──────────────────────────────────────────────</span>');
+      const rows = [
+        ['help',      'Show this command reference'],
+        ['projects',  'List all 6 deployed applications'],
+        ['open &lt;n&gt;', 'Open project number n in a new tab'],
+        ['skills',    'Display the technical arsenal'],
+        ['security',  'Show security posture &amp; hardening'],
+        ['contact',   'Establish a connection'],
+        ['clear',     'Wipe the terminal buffer'],
+        ['sudo',      '...try it']
+      ];
+      rows.forEach(([cmd, desc]) => {
+        print('  <span class="text-cyanx inline-block w-[100px]">' + cmd + '</span><span class="text-slate-500">' + desc + '</span>');
+      });
+    },
+
+    projects() {
+      print('<span class="text-neon">// DEPLOYED SYSTEMS — 6 ACTIVE</span>');
+      PROJECTS.forEach((p, i) => {
+        print('  <span class="text-cyanx">[' + (i + 1) + ']</span> <span class="text-slate-200">' + esc(p.n) + '</span>');
+        print('      <span class="text-slate-500">' + esc(p.d) + '</span>');
+      });
+      print('<span class="text-slate-500">  run <span class="text-cyanx">open 3</span> to launch a system</span>');
+    },
+
+    open(args) {
+      const n = parseInt(args[0], 10);
+      if (!n || n < 1 || n > PROJECTS.length) {
+        print('<span class="text-red-400">Usage: open &lt;1-' + PROJECTS.length + '&gt;</span>');
+        return;
+      }
+      const p = PROJECTS[n - 1];
+      print('<span class="text-neon">Launching</span> <span class="text-slate-200">' + esc(p.n) + '</span> ...');
+      const w = window.open(p.u, '_blank', 'noopener,noreferrer');
+      if (w) w.opener = null;
+    },
+
+    skills() {
+      print('<span class="text-neon">// TECHNICAL ARSENAL</span>');
+      const all = [
+        { label: 'HTML5 / Semantic Markup', v: 98 },
+        { label: 'CSS3 / Tailwind CSS',     v: 96 },
+        { label: 'JavaScript ES6+',         v: 94 },
+        { label: 'React / Vite',            v: 88 },
+        { label: 'UI / UX & Design Systems',v: 90 },
+        { label: 'Web Security / CSP',      v: 85 }
+      ];
+      all.forEach((s) => {
+        const filled = Math.round(s.v / 5);
+        const bar = '█'.repeat(filled) + '░'.repeat(20 - filled);
+        print('  <span class="text-slate-300 inline-block w-[190px]">' + esc(s.label) + '</span><span class="text-neon">' + bar + '</span> <span class="text-slate-500">' + s.v + '%</span>');
+      });
+    },
+
+    security() {
+      print('<span class="text-neon">// SECURITY POSTURE</span>');
+      print('  <span class="text-slate-500">TLS Version   :</span> <span class="text-neon">1.3</span>');
+      print('  <span class="text-slate-500">Cipher Suite  :</span> <span class="text-neon">AES-256-GCM</span>');
+      print('  <span class="text-slate-500">CSP           :</span> <span class="text-neon">ENFORCED</span>');
+      print('  <span class="text-slate-500">Threat Scan   :</span> <span class="text-neon">0 THREATS</span>');
+    },
+
+    contact() {
+      print('<span class="text-neon">// ESTABLISH CONNECTION</span>');
+      print('  <span class="text-slate-500">GitHub :</span> <a href="https://github.com/lamin-16" target="_blank" rel="noopener noreferrer" class="text-cyanx underline">github.com/lamin-16</a>');
+      print('  <span class="text-slate-500">Status:</span> <span class="text-neon">OPEN FOR MISSIONS</span>');
+    },
+
+    sudo() {
+      print('<span class="text-red-400">Permission denied.</span>');
+      print('<span class="text-slate-500">  Nice try. This incident has been logged.</span>');
+    },
+
+    clear() {
+      cliOut.innerHTML = '';
+    }
+  };
+
+  function runCommand(raw) {
+    const value = raw.trim();
+    if (!value) return;
+
+    print('<span class="text-neon">visitor@lamin:~$</span> <span class="text-slate-200">' + esc(value) + '</span>', 'mt-2');
+
+    const parts = value.split(/\s+/);
+    const cmd   = parts[0].toLowerCase();
+    const args  = parts.slice(1);
+
+    if (Object.prototype.hasOwnProperty.call(COMMANDS, cmd)) {
+      try { COMMANDS[cmd](args); }
+      catch (err) { print('<span class="text-red-400">Command execution error.</span>'); }
+    } else {
+      print('<span class="text-red-400">command not found: ' + esc(cmd) + '</span>');
+      print('<span class="text-slate-500">  type <span class="text-cyanx">help</span> for the command list.</span>');
+    }
+  }
+
+  cliInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const value = cliInput.value;
+      if (value.trim()) { history.push(value); }
+      hIndex = history.length;
+      runCommand(value);
+      cliInput.value = '';
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (hIndex > 0) { hIndex--; cliInput.value = history[hIndex] || ''; }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (hIndex < history.length - 1) { hIndex++; cliInput.value = history[hIndex] || ''; }
+      else { hIndex = history.length; cliInput.value = ''; }
+    }
+  });
+
+  cliWin.addEventListener('click', (e) => {
+    if (window.getSelection().toString()) return;
+    if (e.target.tagName !== 'A') cliInput.focus();
+  });
+
+  document.querySelectorAll('[data-cmd]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const cmd = btn.dataset.cmd;
+      history.push(cmd);
+      hIndex = history.length;
+      runCommand(cmd);
+      cliInput.focus();
+    });
+  });
+
+  print('<span class="text-neon">LAMIN.OS v3.0.1</span> <span class="text-slate-600">— secure shell initialized</span>');
+  print('<span class="text-slate-500">Type <span class="text-cyanx">help</span> to list commands.</span>');
+  print('');
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+})();
+</script>
+
+</body>
+</html>
